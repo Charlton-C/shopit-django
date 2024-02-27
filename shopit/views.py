@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from shopit.models import User
 from shopit.forms import UserForm
+
+
+def home(request):
+	return render(request, 'home.html')
+
 
 def signUpUser(request):
 	if request.method == "POST":
@@ -16,3 +22,17 @@ def signUpUser(request):
 
 	else:
 		return render(request, 'signup.html')
+	
+
+def logInUser(request):
+	if request.method == "POST":
+		user = User.objects.filter(email=request.POST['email']).filter(password=request.POST['password'])
+		try:
+			if user[0] == None:
+				raise
+			else:
+				return redirect(reverse('home'))
+		except:
+			return render(request, 'login.html', {'email': request.POST['email']})
+	else:
+		return render(request, 'login.html')
