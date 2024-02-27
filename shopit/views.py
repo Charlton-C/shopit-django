@@ -7,6 +7,8 @@ from shopit.forms import UserForm
 def home(request):
 	return render(request, 'home.html')
 
+def products(request):
+	return render(request, 'products.html')
 
 def signUpUser(request):
 	if request.method == "POST":

@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% block content %}
+<style>
+	.products-div{
+		margin: auto 0 8vh 0;
+	}
+	
+	.products-text-h3{
+		margin-bottom: 2.5vh;
+	}
+	
+	.products-div-ul{
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0;
+		list-style: none;
+	}
+
+	.card{
+		width: 80vw;
+		margin: 0 0 5vh -4.5vw;
+	}
+
+	.product-old-price-p{
+		text-decoration: line-through;
+		color: rgb(236, 0, 0);
+	}
+
+	.product-current-price-p{
+		color: rgb(0, 124, 128);
+	}
+
+
+
+	/* For tablet screens */
+
+	@media only screen and (min-width: 768px) and (max-width: 1024px){
+		.card{
+			width: 38vw;
+			margin: 0 2vw 5vh 1.8vw;
+		}
+	}
+
+
+	/* For laptop screens */
+
+	@media only screen and (min-width: 1025px) and (max-width: 1600px){
+		.card{
+			width: 26.5vw;
+			margin: 0 2vw 5vh 1.8vw;
+		}
+	}
+</style>
+
+
+<div class="container-fluid">
+	<div class="container-fluid">
+		<h3 class="text-center products-text-h3">Products</h3>
+	</div>
+
+	<div class="container-fluid">
+		<div class="text-center products-div">
+			<ul class="products-div-ul">
+				<li>
+					<div class="card">
+						<img class="img-fluid" src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_675,q_auto:eco,w_1200/cms/uploads/l0yxuejzfys8vp9ftsl2">
+						<div class="card-body">
+							<h5 class="card-title">Audi R8 GT (2023)</h5>
+							<p class="card-text">Audi's 5.2-liter V-10 mid-engine R8 supercar.</p>
+							<p class="card-text"><span class="product-old-price-p">Ksh 30,000,000</span>&nbsp;<span class="product-current-price-p">Ksh 25,000,000</span></p>
+							<p class="product-quantity">0</p>
+							<a href="javascript: void(0);" class="btn btn-success">Add to Cart</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
