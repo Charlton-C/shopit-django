@@ -10,6 +10,10 @@ def home(request):
 def products(request):
 	return render(request, 'products.html')
 
+def usercart(request):
+	return render(request, 'usercart.html')
+
+
 def signUpUser(request):
 	if request.method == "POST":
 		if request.POST['password'] == request.POST['confirmpassword']:
