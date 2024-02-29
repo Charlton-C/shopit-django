@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from shopit.models import User
 from shopit.models import Product
 from shopit.forms import UserForm
 
@@ -11,9 +10,6 @@ def home(request):
 def products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
-
-def usercart(request):
-	return render(request, 'usercart.html')
 
 
 def signUpUser(request):
