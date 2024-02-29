@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from shopit.models import Product
+from shopit.models import Product, Cart
 
 
 def home(request):
@@ -12,12 +12,18 @@ def home(request):
 		return render(request, 'home.html')
 
 def products(request):
-	products = Product.objects.all()
-	return render(request, 'products.html', {'products': products})
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		products = Product.objects.all()
+		return render(request, 'products.html', {'products': products})
 
 def usercart(request):
-	return render(request, 'usercart.html')
-
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		cartItems = Cart.objects.filter(user=request.user)
+		return render(request, 'usercart.html', {'cartitems': cartItems})
 
 def signUpUser(request):
 	if request.method == "POST":
