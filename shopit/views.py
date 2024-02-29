@@ -19,7 +19,10 @@ def usercart(request):
 	return render(request, 'usercart.html')
 
 def userprofile(request):
-	return render(request, 'userprofile.html')
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		return render(request, 'userprofile.html', {'user': request.user})
 
 
 def signUpUser(request):
