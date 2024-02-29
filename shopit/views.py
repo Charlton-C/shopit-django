@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 from shopit.models import Product
-from shopit.forms import UserForm
 
 
 def home(request):
@@ -11,19 +11,17 @@ def products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
 
+def usercart(request):
+	return render(request, 'usercart.html')
+
 
 def signUpUser(request):
 	if request.method == "POST":
 		if request.POST['password'] == request.POST['confirmpassword']:
-			form = UserForm(request.POST)
-			if form.is_valid():
-				form.save()
-				return redirect(reverse('home'))
-			else:
-				return render(request, 'signup.html', {'firstname': request.POST['firstname'], 'lastname': request.POST['lastname'], 'username': request.POST['username'], 'email': request.POST['email']})
+			User.objects.create_user(request.POST['username'], first_name=request.POST['firstname'], last_name=request.POST['lastname'], email=request.POST['email'], password=request.POST['password'])
+			return redirect(reverse('home'))
 		else:
 			return render(request, 'signup.html', {'firstname': request.POST['firstname'], 'lastname': request.POST['lastname'], 'username': request.POST['username'], 'email': request.POST['email']})
-
 	else:
 		return render(request, 'signup.html')
 	
