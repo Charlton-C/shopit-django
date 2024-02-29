@@ -13,5 +13,74 @@
 	<div class="container-fluid">
 		<h3 class="text-center profile-text-h3">Profile</h3>
 	</div>
+	<div class="container-fluid profile-div">
+		<form method="post" accept="">
+			{% csrf_token %}
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="userfirstname" class="form-label">First Name:</label>
+				</div>
+				<div class="col-4">
+					<input type="text" name="userfirstname" class="form-control-plaintext" value="{{ user.first_name }}" readonly>
+				</div>
+				<div class="col-4">
+					<a class="btn" type="button" href="#">Edit</a>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="userlastname" class="form-label">Last Name:</label>
+				</div>
+				<div class="col-4">
+					<input type="text" name="userlastname" class="form-control-plaintext" value="{{ user.last_name }}" readonly>
+				</div>
+				<div class="col-4">
+					<a class="btn" type="button" href="#">Edit</a>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="useremail" class="form-label">Email:</label>
+				</div>
+				<div class="col-4">
+					<input type="email" name="useremail" class="form-control-plaintext" value="{{ user.email }}" readonly>
+				</div>
+				<div class="col-4">
+					<a class="btn" type="button" href="#">Edit</a>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="password" class="form-label">Password</label>
+				</div>
+				<div class="col-4">
+					<input type="password" name="password" class="form-control-plaintext" value="" readonly>
+				</div>
+				<div class="col-4">
+					<a class="btn" type="button" href="#">Edit</a>
+				</div>
+			</div>
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="confirmpassword" class="form-label">Confirm Password</label>
+				</div>
+				<div class="col-4">
+					<input type="password" name="confirmpassword" class="form-control-plaintext" value="" readonly>
+				</div>
+				<div class="col-4">
+					<a class="btn" type="button" href="#">Edit</a>
+				</div>
+			</div>
+			<div class="text-center">
+				<a class="btn btn-success disabled" href="#" type="submit">Change</a>
+			</div>
+		</form>
+	</div>
+	<div class="container-fluid text-center">
+		<a class="btn btn-primary" type="button" href="#">Log Out</a>
+		<br>
+		<br>
+		<a class="btn btn-danger" type="button" href="#">Delete Account</a>
+	</div>
 </div>
 {% endblock %}
