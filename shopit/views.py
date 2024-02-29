@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from shopit.models import Product
 
 
@@ -48,3 +48,7 @@ def logInUser(request):
 			return render(request, 'login.html', {'username': request.POST['username']})
 	else:
 		return render(request, 'login.html', {'username': ''})
+
+def logOutUser(request):
+	logout(request)
+	return redirect(reverse('logInUser'))
