@@ -61,18 +61,21 @@
 	<div class="container-fluid">
 		<div class="text-center products-div">
 			<ul class="products-div-ul">
+				{% for product in products %}
 				<li>
 					<div class="card">
-						<img class="img-fluid" src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_675,q_auto:eco,w_1200/cms/uploads/l0yxuejzfys8vp9ftsl2">
+						<img class="img-fluid" src="{{ product.productimage.url }}">
 						<div class="card-body">
-							<h5 class="card-title">Audi R8 GT (2023)</h5>
-							<p class="card-text">Audi's 5.2-liter V-10 mid-engine R8 supercar.</p>
-							<p class="card-text"><span class="product-old-price-p">Ksh 30,000,000</span>&nbsp;<span class="product-current-price-p">Ksh 25,000,000</span></p>
+							<h5 class="card-title">{{ product.productname }}</h5>
+							<p class="card-text">{{ product.productdescription }}</p>
+							{% load humanize%}
+							<p class="card-text"><span class="product-current-price-p">Ksh {{ product.productprice|intcomma }}</span></p>
 							<p class="product-quantity">0</p>
 							<a href="javascript: void(0);" class="btn btn-success">Add to Cart</a>
 						</div>
 					</div>
 				</li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
