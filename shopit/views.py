@@ -51,4 +51,10 @@ def logInUser(request):
 
 def logOutUser(request):
 	logout(request)
-	return redirect(reverse('logInUser'))
+	return redirect('logInUser')
+
+def deleteUserAccount(request):
+	user = request.user
+	logout(request)
+	user.delete()
+	return redirect('signUpUser')
