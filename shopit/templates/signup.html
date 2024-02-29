@@ -13,6 +13,9 @@
 		.row > .form-floating > label{
 			margin-left: 0.75rem;
 		}
+		[class*="error-message-div"]{
+			color: rgb(255, 0, 0);
+		}
 		.sign-up-form-submit-button{
 			margin: 5vh 0 18vh 0;
 		}
@@ -34,7 +37,7 @@
 						<div class="form-text firstname-error-message-div"></div>
 					</div>
 					<div class="form-floating mb-3 col-6">
-						<input type="text" name="lastname" class="form-control lastname-input" placeholder="Lastname" value="{{ lastname }}">
+						<input type="text" name="lastname" class="form-control lastname-input" placeholder="Lastname" value="{{ lastname }}" required>
 						<label for="lastname" class="form-label">Lastname</label>
 						<div class="form-text lastname-error-message-div"></div>
 					</div>
@@ -57,7 +60,7 @@
 				<div class="form-floating mb-3">
 					<input type="password" name="confirmpassword" class="form-control confirmpassword-input" placeholder="Confirm Password" required>
 					<label for="confirmpassword" class="form-label">Confirm Password</label>
-					<div class="form-text confirmpassword-error-message-div"></div>
+					<div class="form-text confirmpassword-error-message-div">{{ confirmpasswordErrorMessage }}</div>
 				</div>
 				<div class="text-center">
 					<button type="submit" class="btn btn-success sign-up-form-submit-button">Sign Up</button>
