@@ -18,6 +18,9 @@ def products(request):
 def usercart(request):
 	return render(request, 'usercart.html')
 
+def userprofile(request):
+	return render(request, 'userprofile.html')
+
 
 def signUpUser(request):
 	if request.method == "POST":
