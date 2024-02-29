@@ -6,7 +6,10 @@ from shopit.models import Product
 
 
 def home(request):
-	return render(request, 'home.html')
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		return render(request, 'home.html')
 
 def products(request):
 	products = Product.objects.all()
@@ -36,6 +39,6 @@ def logInUser(request):
 			login(request, user)
 			return redirect(reverse('home'))
 		else:
-			return render(request, 'login.html', {'username': request.POST['usernmae']})
+			return render(request, 'login.html', {'username': request.POST['username']})
 	else:
 		return render(request, 'login.html', {'username': ''})
