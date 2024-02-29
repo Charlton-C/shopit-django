@@ -23,7 +23,33 @@ def usercart(request):
 		return logInUser(request)
 	else:
 		cartItems = Cart.objects.filter(user=request.user)
-		return render(request, 'usercart.html', {'cartitems': cartItems})
+		totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+		return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem})
+	
+def addToCartFromHome(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
+	cartItem.quantity += 1
+	cartItem.save()
+	return render(request, 'home.html')
+	
+def addToCartFromProducts(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
+	cartItem.quantity += 1
+	cartItem.save()
+	return render(request, 'products.html', {'products':  Product.objects.all()})
+
+def removeFromCart(request, itemID):
+	cartItem = Cart.objects.get(id=itemID)
+	if cartItem.quantity == 1:
+		cartItem.delete()
+	else:
+		cartItem.quantity -= 1
+		cartItem.save()
+	cartItems = Cart.objects.filter(user=request.user)
+	totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+	return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem})
 
 def signUpUser(request):
 	if request.method == "POST":

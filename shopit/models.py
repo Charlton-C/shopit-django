@@ -16,5 +16,8 @@ class Cart(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	data_added = models.DateTimeField(auto_now_add=True)
 
+	def itemTotalCost(self):
+		return self.product.productprice * self.quantity
+
 	def __str__(self):
 		return self.product.name + ' ' + str(self.quantity)
