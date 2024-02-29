@@ -24,8 +24,8 @@
 			<form method="post" accept="{% url 'logInUser' %}">
 				{% csrf_token %}
 				<div class="form-floating mb-3">
-					<input type="email" name="email" class="form-control" placeholder="example@email.com" required>
-					<label for="email" class="form-label">Enter Email</label>
+					<input type="username" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
+					<label for="username" class="form-label">Enter Username</label>
 					<div class="form-text"></div>
 				</div>
 				<div class="form-floating mb-3">

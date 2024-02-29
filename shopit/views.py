@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from shopit.models import Product
 
 
@@ -28,13 +29,13 @@ def signUpUser(request):
 
 def logInUser(request):
 	if request.method == "POST":
-		user = User.objects.filter(email=request.POST['email']).filter(password=request.POST['password'])
-		try:
-			if user[0] == None:
-				raise
-			else:
-				return redirect(reverse('home'))
-		except:
-			return render(request, 'login.html', {'email': request.POST['email']})
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect(reverse('home'))
+		else:
+			return render(request, 'login.html', {'username': request.POST['usernmae']})
 	else:
-		return render(request, 'login.html')
+		return render(request, 'login.html', {'username': ''})
