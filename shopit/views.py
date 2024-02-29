@@ -28,8 +28,9 @@ def userprofile(request):
 def signUpUser(request):
 	if request.method == "POST":
 		if request.POST['password'] == request.POST['confirmpassword']:
-			User.objects.create_user(request.POST['username'], first_name=request.POST['firstname'], last_name=request.POST['lastname'], email=request.POST['email'], password=request.POST['password'])
-			return redirect(reverse('home'))
+			user = User.objects.create_user(request.POST['username'], first_name=request.POST['firstname'], last_name=request.POST['lastname'], email=request.POST['email'], password=request.POST['password'])
+			login(request, user)
+			return redirect('home')
 		else:
 			return render(request, 'signup.html', {'firstname': request.POST['firstname'], 'lastname': request.POST['lastname'], 'username': request.POST['username'], 'email': request.POST['email'], 'confirmpasswordErrorMessage': 'Passwords don\'t match'})
 	else:
