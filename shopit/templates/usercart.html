@@ -68,7 +68,7 @@
 		<h3 class="text-center products-text-h3">Cart</h3>
 	</div>
 
-	{% if cartitems%}
+	{% if cartitems %}
 		<div class="table-responsive">
 			<table class="table table-light table-hover products-table">
 				<thead>
@@ -102,9 +102,19 @@
 					</tr>
 				</tfoot>
 			</table>
-			<div class="text-center">
-				<a class="btn btn-success" type="button" href="#">Buy all</a>
-			</div>
+		</div>
+		<br>
+		<div class="text-center">
+			{% with totalPrice=totalpriceforallcartitem|floatformat:"0" %}
+			<form method="post" action="{% url 'buyAllItems' totalPrice %}">
+			{% endwith %}
+				{% csrf_token %}
+				<div class="form-floating mb-3">
+					<input class="form-control" type="number" name="numbertomakepayment" placeholder="Enter your number here" required>
+					<label for="numbertomakepayment" class="form-label">Enter your number here</label>
+				</div>
+				<button type="submit" class="btn btn-success">Buy all</button>
+			</form>
 		</div>
 	{% else %}
 		<div class="text-center">
