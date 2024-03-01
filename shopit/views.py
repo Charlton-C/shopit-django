@@ -10,7 +10,8 @@ def home(request):
 	if not request.user.is_authenticated:
 		return logInUser(request)
 	else:
-		return render(request, 'home.html')
+		products = Product.objects.all().order_by('-id')[:5]
+		return render(request, 'home.html', {'products': products})
 
 def products(request):
 	if not request.user.is_authenticated:
