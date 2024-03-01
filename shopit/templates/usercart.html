@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% block content %}
+{% load humanize %}
 <style>
 	.products-div{
 		margin: auto 0 8vh 0;
@@ -67,38 +68,59 @@
 		<h3 class="text-center products-text-h3">Cart</h3>
 	</div>
 
-	<div class="table-responsive">
-		<table class="table table-light table-hover products-table">
-			<thead>
-				<tr>
-					<th>Item Image</th>
-					<th>Item</th>
-					<th>Quantity</th>
-					<th>Price</th>
-					<th>Total Price</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><img class="rounded img-fluid" src="https://images.drive.com.au/driveau/image/upload/c_fill,f_auto,g_auto,h_675,q_auto:eco,w_1200/cms/uploads/l0yxuejzfys8vp9ftsl2"></td>
-					<td>Audi R8 GT (2023)</td>
-					<td>5</td>
-					<td>Ksh 25,000,000</td>
-					<td>Ksh 125,000,000</td>
-					<td><a href="#" class="btn btn-danger">Remove</a></td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td>Total:</td>
-					<td colspan="3"></td>
-					<td class="total-price-td">Ksh 125,000,000</td>
-					<td></td>
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+	{% if cartitems %}
+		<div class="table-responsive">
+			<table class="table table-light table-hover products-table">
+				<thead>
+					<tr>
+						<th>Item Image</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Total Price</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for cartitem in cartitems %}
+					<tr>
+						<td><img class="rounded img-fluid" src="{{ cartitem.product.productimage.url }}"></td>
+						<td>{{ cartitem.product.productname }}</td>
+						<td>{{ cartitem.quantity|intcomma }}</td>
+						<td>Ksh {{ cartitem.product.productprice|intcomma }}</td>
+						<td>Ksh {{ cartitem.itemTotalCost|intcomma }}</td>
+						<td><a href="{% url 'removeFromCart' cartitem.id %}" class="btn btn-danger">Remove</a></td>
+					</tr>							
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>Total:</td>
+						<td colspan="3"></td>
+						<td class="total-price-td">Ksh {{ totalpriceforallcartitem|intcomma }}</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<br>
+		<div class="text-center">
+			{% with totalPrice=totalpriceforallcartitem|floatformat:"0" %}
+			<form method="post" action="{% url 'buyAllItems' totalPrice %}">
+			{% endwith %}
+				{% csrf_token %}
+				<div class="form-floating mb-3">
+					<input class="form-control" type="number" name="numbermakingpayment" placeholder="Enter your number here" required>
+					<label for="numbermakingpayment" class="form-label">Enter your number here</label>
+				</div>
+				<button type="submit" class="btn btn-success">Buy all</button>
+			</form>
+		</div>
+	{% else %}
+		<div class="text-center">
+			<p>Your shopping cart is empty.</p>
+		</div>
+	{% endif %}
 </div>
 
 {% endblock %}

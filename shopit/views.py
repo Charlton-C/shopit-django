@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django_daraja.mpesa.core import MpesaClient
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from shopit.models import Product
+from shopit.models import Product, Cart
 
 
 def home(request):
@@ -12,12 +13,59 @@ def home(request):
 		return render(request, 'home.html')
 
 def products(request):
-	products = Product.objects.all()
-	return render(request, 'products.html', {'products': products})
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		products = Product.objects.all()
+		return render(request, 'products.html', {'products': products})
 
 def usercart(request):
-	return render(request, 'usercart.html')
+	if not request.user.is_authenticated:
+		return logInUser(request)
+	else:
+		cartItems = Cart.objects.filter(user=request.user)
+		totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+		return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem})
+	
+def addToCartFromHome(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
+	cartItem.quantity += 1
+	cartItem.save()
+	return render(request, 'home.html')
+	
+def addToCartFromProducts(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
+	cartItem.quantity += 1
+	cartItem.save()
+	return render(request, 'products.html', {'products':  Product.objects.all()})
 
+def removeFromCart(request, itemID):
+	cartItem = Cart.objects.get(id=itemID)
+	if cartItem.quantity == 1:
+		cartItem.delete()
+	else:
+		cartItem.quantity -= 1
+		cartItem.save()
+	cartItems = Cart.objects.filter(user=request.user)
+	totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+	return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem})
+
+def buyAllItems(request, totalcostofallitems):
+	if request.method == "POST":
+		mc = MpesaClient()
+		number = request.POST['numbermakingpayment']
+		amount = int(totalcostofallitems)
+		account_reference = 'reference'
+		transaction_description = 'test payment'
+		callback_url = 'https://api.darajambili.com/express-payment'
+		print(mc.stk_push(number, amount, account_reference, transaction_description, callback_url))
+		cartItems = Cart.objects.filter(user=request.user)
+		for cartItem in cartItems:
+			cartItem.delete()
+		cartItems = Cart.objects.filter(user=request.user)
+		return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': '0'})
 def userprofile(request):
 	if not request.user.is_authenticated:
 		return logInUser(request)
