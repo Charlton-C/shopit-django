@@ -8,23 +8,31 @@
 	.profile-text-h3{
 		margin-bottom: 2.5vh;
 	}
+
+	.old-password-div{
+		display: none;
+	}
+
+	.confirm-password-div{
+		display: none;
+	}
 </style>
 <div class="container-fluid">
 	<div class="container-fluid">
 		<h3 class="text-center profile-text-h3">Profile</h3>
 	</div>
 	<div class="container-fluid profile-div">
-		<form method="post" accept="">
+		<form method="post" action="">
 			{% csrf_token %}
 			<div class="row text-center">
 				<div class="col-4">
 					<label for="userfirstname" class="form-label">First Name:</label>
 				</div>
 				<div class="col-4">
-					<input type="text" name="userfirstname" class="form-control-plaintext" value="{{ user.first_name }}" readonly>
+					<input type="text" name="userfirstname" class="form-control-plaintext" value="{{ user.first_name }}" readonly required>
 				</div>
 				<div class="col-4">
-					<a class="btn" type="button" href="#">Edit</a>
+					<button class="btn edit-firstname-button" type="button">Edit</button>
 				</div>
 			</div>
 			<div class="row text-center">
@@ -32,10 +40,10 @@
 					<label for="userlastname" class="form-label">Last Name:</label>
 				</div>
 				<div class="col-4">
-					<input type="text" name="userlastname" class="form-control-plaintext" value="{{ user.last_name }}" readonly>
+					<input type="text" name="userlastname" class="form-control-plaintext" value="{{ user.last_name }}" readonly required>
 				</div>
 				<div class="col-4">
-					<a class="btn" type="button" href="#">Edit</a>
+					<button class="btn edit-lastname-button" type="button">Edit</button>
 				</div>
 			</div>
 			<div class="row text-center">
@@ -43,10 +51,10 @@
 					<label for="useremail" class="form-label">Email:</label>
 				</div>
 				<div class="col-4">
-					<input type="email" name="useremail" class="form-control-plaintext" value="{{ user.email }}" readonly>
+					<input type="email" name="useremail" class="form-control-plaintext" value="{{ user.email }}" readonly required>
 				</div>
 				<div class="col-4">
-					<a class="btn" type="button" href="#">Edit</a>
+					<button class="btn edit-email-button" type="button">Edit</button>
 				</div>
 			</div>
 			<div class="row text-center">
@@ -54,25 +62,23 @@
 					<label for="password" class="form-label">Password</label>
 				</div>
 				<div class="col-4">
-					<input type="password" name="password" class="form-control-plaintext" value="" readonly>
+					<input type="password" name="password" class="form-control-plaintext" readonly required>
 				</div>
 				<div class="col-4">
-					<a class="btn" type="button" href="#">Edit</a>
+					<button class="btn edit-password-button" type="button">Edit</button>
 				</div>
 			</div>
-			<div class="row text-center">
+			<div class="row text-center confirm-password-div">
 				<div class="col-4">
 					<label for="confirmpassword" class="form-label">Confirm Password</label>
 				</div>
 				<div class="col-4">
-					<input type="password" name="confirmpassword" class="form-control-plaintext" value="" readonly>
+					<input type="password" name="confirmpassword" class="form-control-plaintext" required>
 				</div>
-				<div class="col-4">
-					<a class="btn" type="button" href="#">Edit</a>
-				</div>
+				<div class="col-4"></div>
 			</div>
 			<div class="text-center">
-				<a class="btn btn-success disabled" href="#" type="submit">Change</a>
+				<button class="btn btn-success disabled change-user-info-button" type="submit">Change</button>
 			</div>
 		</form>
 	</div>
@@ -83,4 +89,99 @@
 		<a class="btn btn-danger" type="button" href="{% url 'deleteuseraccount' %}">Delete Account</a>
 	</div>
 </div>
+<script>
+	var editFirstnameButton = document.querySelector(".edit-firstname-button");
+	var editLastnameButton = document.querySelector(".edit-lastname-button");
+	var editEmailButton = document.querySelector(".edit-email-button");
+	var editPasswordButton = document.querySelector(".edit-password-button");
+	var changeUserInfoButton = document.querySelector(".change-user-info-button");
+	var firstnameSaved = false;
+	var lastnameSaved = false;
+	var emailSaved = false;
+	var passwordSaved = false;
+	editFirstnameButton.addEventListener("click", () => {
+		if(editFirstnameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userfirstname']").toggleAttribute("readonly");
+			}
+			editFirstnameButton.innerText = "Save";
+			firstnameSaved = false;
+		}
+		else if(editFirstnameButton.innerText == "Save" && document.querySelector("input[name='userfirstname']").value != ""){
+			if(!document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userfirstname']").toggleAttribute("readonly");
+			}
+			editFirstnameButton.innerText = "Edit";
+			firstnameSaved = true;
+			if(changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else{}
+	});
+	editLastnameButton.addEventListener("click", () => {
+		if(editLastnameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='userlastname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userlastname']").toggleAttribute("readonly");
+			}
+			editLastnameButton.innerText = "Save";
+			lastnameSaved = false;
+		}
+		else if(editLastnameButton.innerText == "Save" && document.querySelector("input[name='userlastname']").value != ""){
+			if(!document.querySelector("input[name='userlastname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userlastname']").toggleAttribute("readonly");
+			}
+			editLastnameButton.innerText = "Edit";
+			lastnameSaved = true;
+			if(changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else{}
+	});
+	editEmailButton.addEventListener("click", () => {
+		if(editEmailButton.innerText == "Edit"){
+			if(document.querySelector("input[name='useremail']").hasAttribute("readonly")){
+				document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+			}
+			editEmailButton.innerText = "Save";
+			emailSaved = false;
+		}
+		else if(editEmailButton.innerText == "Save" && document.querySelector("input[name='useremail']").validity.valid == true){
+			if(!document.querySelector("input[name='useremail']").hasAttribute("readonly")){
+				document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+			}
+			editEmailButton.innerText = "Edit";
+			emailSaved = true;
+			if(changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else{}
+	});
+	editPasswordButton.addEventListener("click", () => {
+		if(editPasswordButton.innerText == "Edit"){
+			if(document.querySelector("input[name='password']").hasAttribute("readonly")){
+				document.querySelector("input[name='password']").toggleAttribute("readonly");
+			}
+			document.querySelector(".confirm-password-div").style.display = "flex";
+			document.querySelector("label[for='password']").innerText = "New Password";
+			editPasswordButton.innerText = "Save";
+			passwordSaved = false;
+		}
+		else if(editPasswordButton.innerText == "Save" && document.querySelector("input[name='password']").value == document.querySelector("input[name='confirmpassword']").value){
+			if(!document.querySelector("input[name='password']").hasAttribute("readonly")){
+				document.querySelector("input[name='password']").toggleAttribute("readonly");
+			}
+			document.querySelector(".confirm-password-div").style.display = "none";
+			document.querySelector("label[for='password']").innerText = "Password";
+			editPasswordButton.innerText = "Edit";
+			passwordSaved = true;
+			if(changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else{}
+	});
+</script>
 {% endblock %}
