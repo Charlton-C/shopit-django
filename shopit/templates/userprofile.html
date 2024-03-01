@@ -66,7 +66,7 @@
 					<input type="password" name="oldpassword" class="form-control-plaintext">
 				</div>
 				<div class="col-1">
-					<span class="bi bi-eye-slash show-password-span"></span>
+					<span class="bi bi-eye-slash show-oldpassword-span"></span>
 				</div>
 				<div class="col-4"></div>
 			</div>
@@ -92,7 +92,7 @@
 					<input type="password" name="confirmpassword" class="form-control-plaintext">
 				</div>
 				<div class="col-1">
-					<span class="bi bi-eye-slash show-password-span"></span>
+					<span class="bi bi-eye-slash show-confirmpassword-span"></span>
 				</div>
 				<div class="col-4"></div>
 			</div>
@@ -114,7 +114,9 @@
 	var editEmailButton = document.querySelector(".edit-email-button");
 	var changeUserInfoButton = document.querySelector(".change-user-info-button");
 	var editPasswordButton = document.querySelector(".edit-password-button");
-	var showPasswordSpans = document.querySelectorAll(".show-password-span");
+	var showOldPasswordSpan = document.querySelector(".show-oldpassword-span");
+	var showPasswordSpan = document.querySelector(".show-password-span");
+	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
 	var firstnameSaved = false;
 	var lastnameSaved = false;
 	var emailSaved = false;
@@ -177,6 +179,39 @@
 			if(changeUserInfoButton.classList.contains("disabled")){
 				changeUserInfoButton.classList.toggle("disabled")
 			}
+		}
+		else{}
+	});
+	showOldPasswordSpan.addEventListener("click", () => {
+		if(!showOldPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='oldpassword']").type = "text";
+			showOldPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showOldPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='oldpassword']").type = "password";
+			showOldPasswordSpan.classList.toggle("bi-eye");
+		}
+		else{}
+	});
+	showPasswordSpan.addEventListener("click", () => {
+		if(!showPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='password']").type = "text";
+			showPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='password']").type = "password";
+			showPasswordSpan.classList.toggle("bi-eye");
+		}
+		else{}
+	});
+	showConfirmPasswordSpan.addEventListener("click", () => {
+		if(!showConfirmPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='confirmpassword']").type = "text";
+			showConfirmPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showConfirmPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='confirmpassword']").type = "password";
+			showConfirmPasswordSpan.classList.toggle("bi-eye");
 		}
 		else{}
 	});
