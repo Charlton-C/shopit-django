@@ -58,6 +58,44 @@
 					<button class="btn edit-email-button" type="button">Edit</button>
 				</div>
 			</div>
+			<div class="row text-center old-password-div">
+				<div class="col-4">
+					<label for="oldpassword" class="form-label">Old Password</label>
+				</div>
+				<div class="col-3">
+					<input type="password" name="oldpassword" class="form-control-plaintext">
+				</div>
+				<div class="col-1">
+					<span class="bi bi-eye-slash show-password-span"></span>
+				</div>
+				<div class="col-4"></div>
+			</div>
+			<div class="row text-center">
+				<div class="col-4">
+					<label for="password" class="form-label">Password</label>
+				</div>
+				<div class="col-3">
+					<input type="password" name="password" class="form-control-plaintext" readonly>
+				</div>
+				<div class="col-1">
+					<span class="bi bi-eye-slash show-password-span"></span>
+				</div>
+				<div class="col-4">
+					<button class="btn edit-password-button" type="button">Edit</button>
+				</div>
+			</div>
+			<div class="row text-center confirm-password-div">
+				<div class="col-4">
+					<label for="confirmpassword" class="form-label">Confirm Password</label>
+				</div>
+				<div class="col-3">
+					<input type="password" name="confirmpassword" class="form-control-plaintext">
+				</div>
+				<div class="col-1">
+					<span class="bi bi-eye-slash show-password-span"></span>
+				</div>
+				<div class="col-4"></div>
+			</div>
 			<div class="text-center">
 				<button class="btn btn-success disabled change-user-info-button" type="submit">Change</button>
 			</div>
@@ -75,9 +113,13 @@
 	var editLastnameButton = document.querySelector(".edit-lastname-button");
 	var editEmailButton = document.querySelector(".edit-email-button");
 	var changeUserInfoButton = document.querySelector(".change-user-info-button");
+	var editPasswordButton = document.querySelector(".edit-password-button");
+	var showPasswordSpans = document.querySelectorAll(".show-password-span");
 	var firstnameSaved = false;
 	var lastnameSaved = false;
 	var emailSaved = false;
+	var passwordSaved = false;
+
 	editFirstnameButton.addEventListener("click", () => {
 		if(editFirstnameButton.innerText == "Edit"){
 			if(document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
@@ -132,6 +174,36 @@
 			}
 			editEmailButton.innerText = "Edit";
 			emailSaved = true;
+			if(changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else{}
+	});
+	editPasswordButton.addEventListener("click", () => {
+		if(editPasswordButton.innerText == "Edit"){
+			if(document.querySelector("input[name='password']").hasAttribute("readonly")){
+				document.querySelector("input[name='password']").toggleAttribute("readonly");
+			}
+			document.querySelector(".old-password-div").style.display = "flex";
+			document.querySelector(".confirm-password-div").style.display = "flex";
+			document.querySelector("label[for='password']").innerText = "New Password";
+			editPasswordButton.innerText = "Save";
+			passwordSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editPasswordButton.innerText == "Save" && document.querySelector("input[name='password']").value != "" && document.querySelector("input[name='password']").value == document.querySelector("input[name='confirmpassword']").value){
+			if(!document.querySelector("input[name='password']").hasAttribute("readonly")){
+				document.querySelector("input[name='password']").toggleAttribute("readonly");
+			}
+			document.querySelector(".old-password-div").style.display = "none";
+			document.querySelector(".confirm-password-div").style.display = "none";
+			document.querySelector("label[for='password']").innerText = "Password";
+			editPasswordButton.innerText = "Edit";
+			passwordSaved = true;
+			document.querySelector("input[name='confirmpassword']").value = "";
 			if(changeUserInfoButton.classList.contains("disabled")){
 				changeUserInfoButton.classList.toggle("disabled")
 			}
