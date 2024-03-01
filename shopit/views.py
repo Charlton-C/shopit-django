@@ -24,6 +24,15 @@ def userprofile(request):
 	else:
 		return render(request, 'userprofile.html', {'user': request.user})
 
+def updateUserProfile(request):
+	if request.method == "POST":
+		user = request.user
+		user.first_name = request.POST['userfirstname']
+		user.last_name = request.POST['userlastname']
+		user.email = request.POST['useremail']
+		user.save()
+		return render(request, 'userprofile.html', {'user': request.user})
+
 
 def signUpUser(request):
 	if request.method == "POST":
