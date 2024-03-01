@@ -129,6 +129,9 @@
 			}
 			editFirstnameButton.innerText = "Save";
 			firstnameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
 		}
 		else if(editFirstnameButton.innerText == "Save" && document.querySelector("input[name='userfirstname']").value != ""){
 			if(!document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
@@ -149,6 +152,9 @@
 			}
 			editLastnameButton.innerText = "Save";
 			lastnameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
 		}
 		else if(editLastnameButton.innerText == "Save" && document.querySelector("input[name='userlastname']").value != ""){
 			if(!document.querySelector("input[name='userlastname']").hasAttribute("readonly")){
@@ -169,6 +175,9 @@
 			}
 			editEmailButton.innerText = "Save";
 			emailSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
 		}
 		else if(editEmailButton.innerText == "Save" && document.querySelector("input[name='useremail']").validity.valid == true){
 			if(!document.querySelector("input[name='useremail']").hasAttribute("readonly")){
