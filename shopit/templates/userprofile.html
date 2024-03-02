@@ -254,21 +254,34 @@
 				changeUserInfoButton.classList.toggle("disabled")
 			}
 		}
-		else if(editPasswordButton.innerText == "Save" && document.querySelector("input[name='password']").value != "" && document.querySelector("input[name='password']").value == document.querySelector("input[name='confirmpassword']").value){
-			if(!document.querySelector("input[name='password']").hasAttribute("readonly")){
-				document.querySelector("input[name='password']").toggleAttribute("readonly");
+		else if(editPasswordButton.innerText == "Save"){
+			if(document.querySelector("input[name='oldpassword']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter your old password";
 			}
-			document.querySelector(".old-password-div").style.display = "none";
-			document.querySelector(".confirm-password-div").style.display = "none";
-			document.querySelector("label[for='password']").innerText = "Password";
-			editPasswordButton.innerText = "Edit";
-			passwordSaved = true;
-			document.querySelector("input[name='confirmpassword']").value = "";
-			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
-				if(changeUserInfoButton.classList.contains("disabled")){
-					changeUserInfoButton.classList.toggle("disabled")
+			else if(document.querySelector("input[name='password']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a new password";
+			}
+			else if(document.querySelector("input[name='password']").value != document.querySelector("input[name='confirmpassword']").value){
+				document.querySelector(".password-save-error-message-div").innerText = "Passwords don't match";
+			}
+			else if(document.querySelector("input[name='oldpassword']").value != "" && document.querySelector("input[name='password']").value != "" && document.querySelector("input[name='password']").value == document.querySelector("input[name='confirmpassword']").value){
+				if(!document.querySelector("input[name='password']").hasAttribute("readonly")){
+					document.querySelector("input[name='password']").toggleAttribute("readonly");
+				}
+				document.querySelector(".old-password-div").style.display = "none";
+				document.querySelector(".confirm-password-div").style.display = "none";
+				document.querySelector("label[for='password']").innerText = "Password";
+				editPasswordButton.innerText = "Edit";
+				passwordSaved = true;
+				document.querySelector("input[name='confirmpassword']").value = "";
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
 				}
 			}
+			else{}
 		}
 		else{}
 	});
