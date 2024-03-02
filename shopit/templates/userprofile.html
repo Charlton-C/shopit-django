@@ -127,10 +127,10 @@
 	var showOldPasswordSpan = document.querySelector(".show-oldpassword-span");
 	var showPasswordSpan = document.querySelector(".show-password-span");
 	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
-	var firstnameSaved = false;
-	var lastnameSaved = false;
-	var emailSaved = false;
-	var passwordSaved = false;
+	var firstnameSaved = true;
+	var lastnameSaved = true;
+	var emailSaved = true;
+	var passwordSaved = true;
 
 	editFirstnameButton.addEventListener("click", () => {
 		if(editFirstnameButton.innerText == "Edit"){
@@ -149,8 +149,10 @@
 			}
 			editFirstnameButton.innerText = "Edit";
 			firstnameSaved = true;
-			if(changeUserInfoButton.classList.contains("disabled")){
-				changeUserInfoButton.classList.toggle("disabled")
+			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(changeUserInfoButton.classList.contains("disabled")){
+					changeUserInfoButton.classList.toggle("disabled")
+				}
 			}
 		}
 		else{}
@@ -172,8 +174,10 @@
 			}
 			editLastnameButton.innerText = "Edit";
 			lastnameSaved = true;
-			if(changeUserInfoButton.classList.contains("disabled")){
-				changeUserInfoButton.classList.toggle("disabled")
+			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(changeUserInfoButton.classList.contains("disabled")){
+					changeUserInfoButton.classList.toggle("disabled")
+				}
 			}
 		}
 		else{}
@@ -195,8 +199,10 @@
 			}
 			editEmailButton.innerText = "Edit";
 			emailSaved = true;
-			if(changeUserInfoButton.classList.contains("disabled")){
-				changeUserInfoButton.classList.toggle("disabled")
+			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(changeUserInfoButton.classList.contains("disabled")){
+					changeUserInfoButton.classList.toggle("disabled")
+				}
 			}
 		}
 		else{}
@@ -258,8 +264,10 @@
 			editPasswordButton.innerText = "Edit";
 			passwordSaved = true;
 			document.querySelector("input[name='confirmpassword']").value = "";
-			if(changeUserInfoButton.classList.contains("disabled")){
-				changeUserInfoButton.classList.toggle("disabled")
+			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(changeUserInfoButton.classList.contains("disabled")){
+					changeUserInfoButton.classList.toggle("disabled")
+				}
 			}
 		}
 		else{}
