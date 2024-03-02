@@ -153,6 +153,7 @@
 				}
 				editFirstnameButton.innerText = "Edit";
 				firstnameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
 				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
@@ -184,6 +185,7 @@
 				}
 				editLastnameButton.innerText = "Edit";
 				lastnameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
 				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
@@ -215,6 +217,7 @@
 				}
 				editEmailButton.innerText = "Edit";
 				emailSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
 				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
