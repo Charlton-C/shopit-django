@@ -205,17 +205,23 @@
 				changeUserInfoButton.classList.toggle("disabled")
 			}
 		}
-		else if(editEmailButton.innerText == "Save" && document.querySelector("input[name='useremail']").validity.valid == true){
-			if(!document.querySelector("input[name='useremail']").hasAttribute("readonly")){
-				document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+		else if(editEmailButton.innerText == "Save"){
+			if(document.querySelector("input[name='useremail']").validity.valid == false){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a valid email";
 			}
-			editEmailButton.innerText = "Edit";
-			emailSaved = true;
-			if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
-				if(changeUserInfoButton.classList.contains("disabled")){
-					changeUserInfoButton.classList.toggle("disabled")
+			else if(document.querySelector("input[name='useremail']").validity.valid == true){
+				if(!document.querySelector("input[name='useremail']").hasAttribute("readonly")){
+					document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+				}
+				editEmailButton.innerText = "Edit";
+				emailSaved = true;
+				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
 				}
 			}
+			else{}
 		}
 		else{}
 	});
