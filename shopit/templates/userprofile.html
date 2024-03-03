@@ -132,14 +132,16 @@
 <script>
 	var editFirstnameButton = document.querySelector(".edit-firstname-button");
 	var editLastnameButton = document.querySelector(".edit-lastname-button");
+	var editUsernameButton = document.querySelector(".edit-username-button");
 	var editEmailButton = document.querySelector(".edit-email-button");
-	var changeUserInfoButton = document.querySelector(".change-user-info-button");
 	var editPasswordButton = document.querySelector(".edit-password-button");
 	var showOldPasswordSpan = document.querySelector(".show-oldpassword-span");
 	var showPasswordSpan = document.querySelector(".show-password-span");
 	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
+	var changeUserInfoButton = document.querySelector(".change-user-info-button");
 	var firstnameSaved = true;
 	var lastnameSaved = true;
+	var usernameSaved = true;
 	var emailSaved = true;
 	var passwordSaved = true;
 
@@ -165,7 +167,7 @@
 				editFirstnameButton.innerText = "Edit";
 				firstnameSaved = true;
 				document.querySelector(".password-save-error-message-div").innerText = "";
-				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
 					}
@@ -197,7 +199,39 @@
 				editLastnameButton.innerText = "Edit";
 				lastnameSaved = true;
 				document.querySelector(".password-save-error-message-div").innerText = "";
-				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+	editUsernameButton.addEventListener("click", () => {
+		if(editUsernameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='username']").hasAttribute("readonly")){
+				document.querySelector("input[name='username']").toggleAttribute("readonly");
+			}
+			editUsernameButton.innerText = "Save";
+			usernameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editUsernameButton.innerText == "Save"){
+			if(document.querySelector("input[name='username']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a username";
+			}
+			else if(document.querySelector("input[name='username']").value != ""){
+				if(!document.querySelector("input[name='username']").hasAttribute("readonly")){
+					document.querySelector("input[name='username']").toggleAttribute("readonly");
+				}
+				editUsernameButton.innerText = "Edit";
+				usernameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
 					}
@@ -229,7 +263,7 @@
 				editEmailButton.innerText = "Edit";
 				emailSaved = true;
 				document.querySelector(".password-save-error-message-div").innerText = "";
-				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
 					}
@@ -307,7 +341,7 @@
 				passwordSaved = true;
 				document.querySelector("input[name='confirmpassword']").value = "";
 				document.querySelector(".password-save-error-message-div").innerText = "";
-				if(firstnameSaved && lastnameSaved && emailSaved && passwordSaved){
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
 					if(changeUserInfoButton.classList.contains("disabled")){
 						changeUserInfoButton.classList.toggle("disabled")
 					}
