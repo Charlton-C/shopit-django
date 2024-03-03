@@ -36,7 +36,7 @@ def addToCartFromHome(request, productID):
 	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
 	cartItem.quantity += 1
 	cartItem.save()
-	return render(request, 'home.html')
+	return render(request, 'home.html', {'products': Product.objects.all().order_by('-id')[:5]})
 
 def addToCartFromProducts(request, productID):
 	product = Product.objects.get(id=productID)
