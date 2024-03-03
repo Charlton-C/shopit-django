@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django_daraja.mpesa.core import MpesaClient
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -36,14 +35,14 @@ def addToCartFromHome(request, productID):
 	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
 	cartItem.quantity += 1
 	cartItem.save()
-	return render(request, 'home.html', {'products': Product.objects.all().order_by('-id')[:5]})
+	return redirect('home')
 
 def addToCartFromProducts(request, productID):
 	product = Product.objects.get(id=productID)
 	cartItem, created = Cart.objects.get_or_create(product=product, user=request.user)
 	cartItem.quantity += 1
 	cartItem.save()
-	return render(request, 'products.html', {'products':  Product.objects.all()})
+	return redirect('products')
 
 def removeFromCart(request, itemID):
 	cartItem = Cart.objects.get(id=itemID)
@@ -52,9 +51,7 @@ def removeFromCart(request, itemID):
 	else:
 		cartItem.quantity -= 1
 		cartItem.save()
-	cartItems = Cart.objects.filter(user=request.user)
-	totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
-	return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem})
+	return redirect('cart')
 
 def buyAllItems(request, totalcostofallitems):
 	if request.method == "POST":
@@ -68,8 +65,7 @@ def buyAllItems(request, totalcostofallitems):
 		cartItems = Cart.objects.filter(user=request.user)
 		for cartItem in cartItems:
 			cartItem.delete()
-		cartItems = Cart.objects.filter(user=request.user)
-		return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': '0'})
+		return redirect('cart')
 
 
 def userprofile(request):
@@ -145,7 +141,7 @@ def logInUser(request):
 		user = authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request, user)
-			return redirect(reverse('home'))
+			return redirect('home')
 		else:
 			return render(request, 'login.html', {'username': request.POST['username']})
 	else:
