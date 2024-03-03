@@ -58,18 +58,40 @@ def removeFromCart(request, itemID):
 
 def buyAllItems(request, totalcostofallitems):
 	if request.method == "POST":
-		mc = MpesaClient()
-		number = request.POST['numbermakingpayment']
-		amount = int(totalcostofallitems)
-		account_reference = 'reference'
-		transaction_description = 'test payment'
-		callback_url = 'https://api.darajambili.com/express-payment'
-		print(mc.stk_push(number, amount, account_reference, transaction_description, callback_url))
-		cartItems = Cart.objects.filter(user=request.user)
-		for cartItem in cartItems:
-			cartItem.delete()
-		cartItems = Cart.objects.filter(user=request.user)
-		return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': '0'})
+		if len(request.POST['numbermakingpayment']) >= 9:
+			paymenterrormessage = ''
+			paymentsuccessmessage = ''
+			mc = MpesaClient()
+			number = request.POST['numbermakingpayment']
+			if number[0] == '0':
+				number = '254' + number[1:]
+			elif number[0] == '+':
+				number = number[1:]
+			elif number[0] == '7':
+				number = '254' + number
+			else:
+				None
+			amount = int(totalcostofallitems)
+			account_reference = 'reference'
+			transaction_description = 'test payment'
+			callback_url = 'https://api.darajambili.com/express-payment'
+			print(mc.stk_push(number, amount, account_reference, transaction_description, callback_url))
+			cartItems = Cart.objects.filter(user=request.user)
+			for cartItem in cartItems:
+				cartItem.delete()
+			cartItems = Cart.objects.filter(user=request.user)
+			paymentsuccessmessage = 'Payment successful!'
+			return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': '0', 'paymentsuccessmessage': paymentsuccessmessage})
+		elif len(request.POST['numbermakingpayment']) < 9:
+			cartItems = Cart.objects.filter(user=request.user)
+			totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+			paymenterrormessage = 'Please enter a valid number'
+			return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem, 'paymenterrormessage': paymenterrormessage})
+		else:
+			cartItems = Cart.objects.filter(user=request.user)
+			totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+			paymenterrormessage = 'Something went wrong'
+			return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem, 'paymenterrormessage': paymenterrormessage})
 
 
 def userprofile(request):
