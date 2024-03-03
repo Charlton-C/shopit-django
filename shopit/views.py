@@ -86,17 +86,43 @@ def updateUserProfile(request):
 		user.first_name = request.POST['userfirstname']
 		user.last_name = request.POST['userlastname']
 		user.email = request.POST['useremail']
-		if request.POST['oldpassword'] == '':
+		user.save()
+		successMessage = 'Profile updated'
+		# Update username
+		if request.POST['username'] == user.username:
+			None
+		elif request.POST['username'] != user.username and User.objects.filter(username=request.POST['username']).exists():
+			errorMessage = 'Username is already taken'
+		elif request.POST['username'] != user.username and User.objects.filter(username=request.POST['username']).exists() == False:
+			user.username = request.POST['username']
 			user.save()
 			successMessage = 'Profile updated'
+		else:
+			errorMessage = 'Something went wrong with saving your username'
+		# Update password
+		if request.POST['oldpassword'] == '':
+			None
 		elif request.POST['oldpassword'] != '' and check_password(request.POST['oldpassword'], user.password) == False:
-			errorMessage = 'Your old password is wrong'
+			if errorMessage != '':
+				errorMessage += '\nYour old password is wrong'
+			elif errorMessage == '':
+				errorMessage = 'Your old password is wrong'
+			else:
+				None
 		elif request.POST['oldpassword'] != '' and check_password(request.POST['oldpassword'], user.password):
 			user.set_password(request.POST['password'])
 			user.save()
 			successMessage = 'Profile updated'
 		else:
-			errorMessage = 'Something went wrong'
+			if errorMessage != '':
+				errorMessage += '\nSomething went wrong with saving your password'
+			elif errorMessage == '':
+				errorMessage = 'Something went wrong with saving your password'
+			else:
+				None
+		# Remove success message if their is an error
+		if errorMessage != '':
+			successMessage = ''
 		return render(request, 'userprofile.html', {'user': request.user, 'passwordSaveErrorMessage': errorMessage, 'passwordSaveSuccessMessage': successMessage})
 
 
