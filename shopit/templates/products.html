@@ -2,6 +2,8 @@
 {% block title %}Products{% endblock title %}
 {% block content %}
 {% load humanize %}
+{% load shopitcartextras %}
+
 <style>
 	.products-div{
 		margin: auto 0 8vh 0;
@@ -70,6 +72,11 @@
 						<div class="card-body">
 							<h5 class="card-title">{{ product.productname }}</h5>
 							<p class="card-text">{{ product.productdescription }}</p>
+							{% if product|productExistsInCart != None %}
+								<p class="card-text">{{ product|productExistsInCart }}</p>
+							{% elif product|productExistsInCart == None %}
+								<p class="card-text">0</p>
+							{% endif %}
 							<p class="card-text"><span class="product-current-price-p">Ksh {{ product.productprice|intcomma }}</span></p>
 							<a href="{% url 'addToCartFromProducts' product.id %}" class="btn btn-success">Add to Cart</a>
 						</div>
