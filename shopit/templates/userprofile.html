@@ -34,86 +34,88 @@
 		<form method="post" action="{% url 'updateUserProfile' %}">
 			{% csrf_token %}
 			<div class="row text-center">
-				<div class="col-4">
-					<label for="userfirstname" class="form-label">First Name:</label>
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="text" name="userfirstname" class="form-control" placeholder="Firstname" value="{{ user.first_name }}" readonly>
+					<label for="userfirstname" class="form-label">Firstname</label>
 				</div>
-				<div class="col-4">
-					<input type="text" name="userfirstname" class="form-control-plaintext" value="{{ user.first_name }}" readonly>
-				</div>
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="col-1">
 					<button class="btn edit-firstname-button" type="button">Edit</button>
 				</div>
+				<div class="col-1"></div>
 			</div>
 			<div class="row text-center">
-				<div class="col-4">
-					<label for="userlastname" class="form-label">Last Name:</label>
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="text" name="userlastname" class="form-control" placeholder="Lastname" value="{{ user.last_name }}" readonly>
+					<label for="userlastname" class="form-label">Lastname</label>
 				</div>
-				<div class="col-4">
-					<input type="text" name="userlastname" class="form-control-plaintext" value="{{ user.last_name }}" readonly>
-				</div>
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="col-1">
 					<button class="btn edit-lastname-button" type="button">Edit</button>
 				</div>
+				<div class="col-1"></div>
 			</div>
 			<div class="row text-center">
-				<div class="col-4">
-					<label for="username" class="form-label">UserName:</label>
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="text" name="username" class="form-control" placeholder="Username" value="{{ user.username }}" readonly>
+					<label for="username" class="form-label">Username</label>
 				</div>
-				<div class="col-4">
-					<input type="text" name="username" class="form-control-plaintext" value="{{ user.username }}" readonly>
-				</div>
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="col-1">
 					<button class="btn edit-username-button" type="button">Edit</button>
 				</div>
+				<div class="col-1"></div>
 			</div>
 			<div class="row text-center">
-				<div class="col-4">
-					<label for="useremail" class="form-label">Email:</label>
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="email" name="useremail" class="form-control" placeholder="Email" value="{{ user.email }}" readonly>
+					<label for="useremail" class="form-label">Email</label>
 				</div>
-				<div class="col-4">
-					<input type="email" name="useremail" class="form-control-plaintext" value="{{ user.email }}" readonly>
-				</div>
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="col-1">
 					<button class="btn edit-email-button" type="button">Edit</button>
 				</div>
+				<div class="col-1"></div>
 			</div>
 			<div class="row text-center old-password-div">
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="password" name="oldpassword" class="form-control" placeholder="Old Password">
 					<label for="oldpassword" class="form-label">Old Password</label>
-				</div>
-				<div class="col-3">
-					<input type="password" name="oldpassword" class="form-control-plaintext">
 				</div>
 				<div class="col-1">
 					<span class="bi bi-eye-slash show-oldpassword-span"></span>
 				</div>
-				<div class="col-4"></div>
+				<div class="col-2"></div>
 			</div>
 			<div class="row text-center">
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="password" name="password" class="form-control" placeholder="Password" readonly>
 					<label for="password" class="form-label">Password</label>
-				</div>
-				<div class="col-3">
-					<input type="password" name="password" class="form-control-plaintext" readonly>
 				</div>
 				<div class="col-1">
 					<span class="bi bi-eye-slash show-password-span"></span>
 				</div>
-				<div class="col-4">
+				<div class="col-1">
 					<button class="btn edit-password-button" type="button">Edit</button>
 				</div>
+				<div class="col-1"></div>
 			</div>
 			<div class="row text-center confirm-password-div">
-				<div class="col-4">
+				<div class="col-1"></div>
+				<div class="form-floating gx-0 mb-1 col-8">
+					<input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password">
 					<label for="confirmpassword" class="form-label">Confirm Password</label>
-				</div>
-				<div class="col-3">
-					<input type="password" name="confirmpassword" class="form-control-plaintext">
 				</div>
 				<div class="col-1">
 					<span class="bi bi-eye-slash show-confirmpassword-span"></span>
 				</div>
-				<div class="col-4"></div>
+				<div class="col-2"></div>
 			</div>
 			<div class="container-fluid text-center password-save-error-message-div">{{ passwordSaveErrorMessage }}</div>
 			<div class="text-center">
