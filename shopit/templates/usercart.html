@@ -26,6 +26,14 @@
 	.total-price-td{
 		color: rgb(0, 124, 128) !important;
 	}
+	.payment-error-message-div{
+		margin: 2.5vh 0;
+		color: rgb(255, 0, 0);
+	}
+	.payment-success-message-div{
+		margin-top: 2.5vh;
+		color: rgb(0, 128, 0);
+	}
 
 
 
@@ -114,12 +122,14 @@
 					<input class="form-control" type="number" name="numbermakingpayment" placeholder="Enter your number here" required>
 					<label for="numbermakingpayment" class="form-label">Enter your number here</label>
 				</div>
+				<div class="text-center payment-error-message-div">{{ paymenterrormessage }}</div>
 				<button type="submit" class="btn btn-success">Buy all</button>
 			</form>
 		</div>
-	{% else %}
+		{% else %}
 		<div class="text-center">
 			<p>Your shopping cart is empty.</p>
+			<div class="text-center payment-success-message-div">{{ paymentsuccessmessage }}</div>
 		</div>
 	{% endif %}
 </div>
