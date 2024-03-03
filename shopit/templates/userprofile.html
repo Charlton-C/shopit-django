@@ -2,18 +2,17 @@
 {% block title %}Profile{% endblock title %}
 {% block content %}
 <style>
-	.profile-div{
-		margin: auto 0 8vh 0;
-	}
-	
 	.profile-text-h3{
 		margin-bottom: 2.5vh;
+	}
+
+	.profile-div{
+		margin: auto 0 8vh 0;
 	}
 
 	.old-password-div{
 		display: none;
 	}
-
 	.confirm-password-div{
 		display: none;
 	}
@@ -24,6 +23,10 @@
 	.password-save-success-message-div{
 		margin: 2vh 0 0 0;
 		color: rgb(0, 128, 0);
+	}
+
+	.log-out-and-delete-button-div{
+		margin-bottom: 8vh;
 	}
 </style>
 <div class="container-fluid">
@@ -124,7 +127,7 @@
 		</form>
 		<div class="container-fluid text-center password-save-success-message-div">{{ passwordSaveSuccessMessage }}</div>
 	</div>
-	<div class="container-fluid text-center">
+	<div class="container-fluid text-center log-out-and-delete-button-div">
 		<a class="btn btn-primary" type="button" href="{% url 'logOutUser' %}">Log Out</a>
 		<br>
 		<br>
