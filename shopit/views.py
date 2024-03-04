@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django_daraja.mpesa.core import MpesaClient
@@ -76,12 +77,21 @@ def buyAllItems(request, totalcostofallitems):
 			transaction_description = 'test payment'
 			callback_url = 'https://api.darajambili.com/express-payment'
 			print(mc.stk_push(number, amount, account_reference, transaction_description, callback_url))
-			cartItems = Cart.objects.filter(user=request.user)
-			for cartItem in cartItems:
-				cartItem.delete()
-			cartItems = Cart.objects.filter(user=request.user)
-			paymentsuccessmessage = 'Payment successful!'
-			return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': '0', 'paymentsuccessmessage': paymentsuccessmessage})
+			if False:
+				cartItems = Cart.objects.filter(user=request.user)
+				for cartItem in cartItems:
+					cartItem.delete()
+				cartItems = Cart.objects.filter(user=request.user)
+				paymentsuccessmessage = 'Payment successful!'
+				return render(request, 'usercart.html', {'cartitems': cartItems, 'paymentsuccessmessage': paymentsuccessmessage})
+			elif True:
+				time.sleep(8)
+				cartItems = Cart.objects.filter(user=request.user)
+				totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
+				paymenterrormessage = 'Payment not successful, please try again'
+				return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem, 'paymenterrormessage': paymenterrormessage})
+			else:
+				None
 		elif len(request.POST['numbermakingpayment']) < 9:
 			cartItems = Cart.objects.filter(user=request.user)
 			totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
