@@ -166,6 +166,8 @@
 	var showPasswordSpan = document.querySelector(".show-password-span");
 	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
 	var changeUserInfoButton = document.querySelector(".change-user-info-button");
+	var deleteAccountButton = document.querySelector(".delete-account-button");
+	var cancelDeleteAccountButton = document.querySelector(".cancel-delete-account-button");
 	var firstnameSaved = true;
 	var lastnameSaved = true;
 	var usernameSaved = true;
@@ -377,6 +379,16 @@
 			else{}
 		}
 		else{}
+	});
+
+
+	deleteAccountButton.addEventListener("click", () => {
+		document.querySelector(".user-profile-div").style.display = "none"
+		document.querySelector(".delete-account-alert-div").style.display = "flex"
+	});
+	cancelDeleteAccountButton.addEventListener("click", () => {
+		document.querySelector(".user-profile-div").style.display = "block"
+		document.querySelector(".delete-account-alert-div").style.display = "none"
 	});
 </script>
 {% endblock content %}
