@@ -171,14 +171,17 @@ def logInUser(request):
 	if request.method == "POST":
 		username = request.POST['username']
 		password = request.POST['password']
-		user = authenticate(request, username=username, password=password)
-		if user is not None:
-			login(request, user)
-			return redirect('home')
+		if User.objects.filter(username=username).exists():
+			user = authenticate(request, username=username, password=password)
+			if user is not None:
+				login(request, user)
+				return redirect('home')
+			else:
+				return render(request, 'login.html', {'username': request.POST['username'], 'loginerrormessage': 'Please check your password and try again'})
 		else:
-			return render(request, 'login.html', {'username': request.POST['username']})
+			return render(request, 'login.html', {'username': '', 'loginerrormessage': 'The user does not exist'})
 	else:
-		return render(request, 'login.html', {'username': ''})
+		return render(request, 'login.html')
 
 def logOutUser(request):
 	logout(request)
