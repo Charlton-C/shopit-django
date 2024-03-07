@@ -120,12 +120,12 @@
 				</div>
 				<div class="col-2"></div>
 			</div>
-			<div class="container-fluid text-center password-save-error-message-div">{{ passwordSaveErrorMessage }}</div>
+			<div class="container-fluid text-center password-save-error-message-div">{{ passwordSaveErrorMessage|linebreaks }}</div>
 			<div class="text-center">
 				<button class="btn btn-success disabled change-user-info-button" type="submit">Change</button>
 			</div>
 		</form>
-		<div class="container-fluid text-center password-save-success-message-div">{{ passwordSaveSuccessMessage }}</div>
+		<div class="container-fluid text-center password-save-success-message-div">{{ passwordSaveSuccessMessage|linebreaks }}</div>
 	</div>
 	<div class="container-fluid text-center log-out-and-delete-button-div">
 		<a class="btn btn-primary" type="button" href="{% url 'logOutUser' %}">Log Out</a>
