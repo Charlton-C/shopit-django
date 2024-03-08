@@ -82,11 +82,11 @@ def buyAllItems(request, totalcostofallitems):
 				paymentsuccessmessage = 'Payment successful!'
 				return render(request, 'usercart.html', {'cartitems': cartItems, 'paymentsuccessmessage': paymentsuccessmessage})
 			elif True:
-				time.sleep(8)
+				time.sleep(10)
 				cartItems = Cart.objects.filter(user=request.user)
 				totalpriceforallcartitem = sum(cartItem.product.productprice * cartItem.quantity for cartItem in cartItems)
 				paymenterrormessage = 'Payment not successful, please try again'
-				return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem, 'paymenterrormessage': paymenterrormessage})
+				return render(request, 'usercart.html', {'cartitems': cartItems, 'totalpriceforallcartitem': totalpriceforallcartitem, 'userphonenumber': request.POST['numbermakingpayment'], 'paymenterrormessage': paymenterrormessage})
 			else:
 				None
 		elif len(request.POST['numbermakingpayment']) < 9:
