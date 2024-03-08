@@ -193,4 +193,7 @@ def deleteUserAccount(request):
 	user = request.user
 	logout(request)
 	user.delete()
-	return redirect('signUpUser')
+	return redirect('userAccountDeleted')
+
+def userAccountDeleted(request):
+	return render(request, 'accountdeleted.html')
