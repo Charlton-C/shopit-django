@@ -53,5 +53,19 @@
 	<div class="container-fluid spinner-container-div">
 		<div class="spinner-border" role="status"></div>
 	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		var logInContainerDiv = document.querySelector(".log-in-container-div");
+		var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+		var logInForm = document.querySelector(".log-in-form");
+
+		logInForm.addEventListener("submit", () => {
+			document.querySelector("title").innerText = "Loading..."
+			logInContainerDiv.style.display = "none";
+			spinnerContainerDiv.style.display = "flex"
+		});
+	</script>
 </body>
 </html>
