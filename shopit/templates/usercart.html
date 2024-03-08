@@ -144,4 +144,17 @@
 <div class="container-fluid spinner-container-div">
 	<div class="spinner-border" role="status"></div>
 </div>
+
+
+<script>
+	var userCartContainerDiv = document.querySelector(".user-cart-container-div");
+	var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+	var buyCartItemsForm = document.querySelector(".buy-cart-items-form");
+
+	buyCartItemsForm.addEventListener("submit", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userCartContainerDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+</script>
 {% endblock %}
