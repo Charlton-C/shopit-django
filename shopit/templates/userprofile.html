@@ -40,6 +40,12 @@
 	.delete-account-alert-div > div > button{
 		margin-right: 1vw;
 	}
+	.spinner-container-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 80vh;
+	}
 </style>
 <div class="user-profile-div">
 	<div class="container-fluid">
@@ -148,6 +154,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="container-fluid text-center delete-account-alert-div">
 	<div class="alert alert-danger">
 		<h2><span class="bi bi-exclamation-triangle"></span></h2>
@@ -156,6 +163,13 @@
 		<a class="btn btn-danger" type="button" href="{% url 'deleteUserAccount' %}">Yes I'm Sure</a>
 	</div>
 </div>
+
+
+<div class="container-fluid spinner-container-div">
+	<div class="spinner-border" role="status"></div>
+</div>
+
+
 <script>
 	var editFirstnameButton = document.querySelector(".edit-firstname-button");
 	var editLastnameButton = document.querySelector(".edit-lastname-button");
