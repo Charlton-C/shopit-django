@@ -40,6 +40,12 @@
 	.delete-account-alert-div > div > button{
 		margin-right: 1vw;
 	}
+	.spinner-container-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 80vh;
+	}
 </style>
 <div class="user-profile-div">
 	<div class="container-fluid">
@@ -47,7 +53,7 @@
 			<h3 class="text-center profile-text-h3">Profile</h3>
 		</div>
 		<div class="container-fluid profile-div">
-			<form method="post" action="{% url 'updateUserProfile' %}">
+			<form method="post" action="{% url 'updateUserProfile' %}" class="profile-update-form">
 				{% csrf_token %}
 				<div class="row text-center">
 					<div class="col-1"></div>
@@ -141,21 +147,29 @@
 			<div class="container-fluid text-center password-save-success-message-div">{{ passwordSaveSuccessMessage|linebreaks }}</div>
 		</div>
 		<div class="container-fluid text-center log-out-and-delete-button-div">
-			<a class="btn btn-primary" type="button" href="{% url 'logOutUser' %}">Log Out</a>
+			<a class="btn btn-primary log-out-anchor" type="button" href="{% url 'logOutUser' %}">Log Out</a>
 			<br>
 			<br>
 			<button class="btn btn-danger delete-account-button" type="button">Delete Account</button>
 		</div>
 	</div>
 </div>
+
 <div class="container-fluid text-center delete-account-alert-div">
 	<div class="alert alert-danger">
 		<h2><span class="bi bi-exclamation-triangle"></span></h2>
 		<p>Are you sure you want to delete your account?<br>This cannot be undone.</p>
 		<button class="btn btn-primary cancel-delete-account-button">No I'm not</button>
-		<a class="btn btn-danger" type="button" href="{% url 'deleteUserAccount' %}">Yes I'm Sure</a>
+		<a class="btn btn-danger confirm-delete-account-anchor" type="button" href="{% url 'deleteUserAccount' %}">Yes I'm Sure</a>
 	</div>
 </div>
+
+
+<div class="container-fluid spinner-container-div">
+	<div class="spinner-border" role="status"></div>
+</div>
+
+
 <script>
 	var editFirstnameButton = document.querySelector(".edit-firstname-button");
 	var editLastnameButton = document.querySelector(".edit-lastname-button");
@@ -167,7 +181,11 @@
 	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
 	var changeUserInfoButton = document.querySelector(".change-user-info-button");
 	var deleteAccountButton = document.querySelector(".delete-account-button");
+	var deleteAccountAlertDiv = document.querySelector(".delete-account-alert-div");
 	var cancelDeleteAccountButton = document.querySelector(".cancel-delete-account-button");
+	var profileUpdateForm = document.querySelector(".profile-update-form");
+	var userProfileDiv = document.querySelector(".user-profile-div");
+	var spinnerContainerDiv = document.querySelector(".spinner-container-div");
 	var firstnameSaved = true;
 	var lastnameSaved = true;
 	var usernameSaved = true;
@@ -383,12 +401,29 @@
 
 
 	deleteAccountButton.addEventListener("click", () => {
-		document.querySelector(".user-profile-div").style.display = "none"
-		document.querySelector(".delete-account-alert-div").style.display = "flex"
+		userProfileDiv.style.display = "none"
+		deleteAccountAlertDiv.style.display = "flex"
 	});
 	cancelDeleteAccountButton.addEventListener("click", () => {
-		document.querySelector(".user-profile-div").style.display = "block"
-		document.querySelector(".delete-account-alert-div").style.display = "none"
+		userProfileDiv.style.display = "block"
+		deleteAccountAlertDiv.style.display = "none"
+	});
+
+
+	profileUpdateForm.addEventListener("submit", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userProfileDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+	document.querySelector(".log-out-anchor").addEventListener("click", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userProfileDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+	document.querySelector(".confirm-delete-account-anchor").addEventListener("click", () => {
+		document.querySelector("title").innerText = "Loading..."
+		deleteAccountAlertDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
 	});
 </script>
 {% endblock content %}

@@ -17,15 +17,21 @@
 		.log-in-form-submit-button{
 			margin: .4vh 0 28vh 0;
 		}
+		.spinner-container-div{
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
 	</style>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid log-in-container-div">
 		<div class="container-fluid text-center">
 			<h3 class="log-in-h3">Log In</h3>
 		</div>
 		<div class="container-fluid">
-			<form method="post" accept="{% url 'logInUser' %}">
+			<form method="post" accept="{% url 'logInUser' %}" class="log-in-form">
 				{% csrf_token %}
 				<div class="form-floating mb-3">
 					<input type="username" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
@@ -47,5 +53,24 @@
 			<p>Don't have an account? <a href="{% url 'signUpUser' %}">Sign Up</a></p>
 		</div>
 	</div>
+
+
+	<div class="container-fluid spinner-container-div">
+		<div class="spinner-border" role="status"></div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		var logInContainerDiv = document.querySelector(".log-in-container-div");
+		var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+		var logInForm = document.querySelector(".log-in-form");
+
+		logInForm.addEventListener("submit", () => {
+			document.querySelector("title").innerText = "Loading..."
+			logInContainerDiv.style.display = "none";
+			spinnerContainerDiv.style.display = "flex"
+		});
+	</script>
 </body>
 </html>

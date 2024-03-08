@@ -19,16 +19,22 @@
 		.sign-up-form-submit-button{
 			margin: 5vh 0 18vh 0;
 		}
+		.spinner-container-div{
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
 	</style>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid sign-up-container-div">
 		<div class="container-fluid text-center">
 			<h3 class="sign-up-h3">Sign Up</h3>
 		</div>
 
 		<div class="container-fluid">
-			<form method="post" accept="{% url 'signUpUser' %}">
+			<form method="post" accept="{% url 'signUpUser' %}" class="sign-up-form">
 				{% csrf_token %}
 				<div class="row">
 					<div class="form-floating mb-3 col-6">
@@ -66,5 +72,24 @@
 			<p>Already have an account? <a href="{% url 'logInUser' %}">Log In</a></p>
 		</div>
 	</div>
+
+
+	<div class="container-fluid spinner-container-div">
+		<div class="spinner-border" role="status"></div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		var signUpContainerDiv = document.querySelector(".sign-up-container-div");
+		var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+		var signUpForm = document.querySelector(".sign-up-form");
+
+		signUpForm.addEventListener("submit", () => {
+			document.querySelector("title").innerText = "Loading..."
+			signUpContainerDiv.style.display = "none";
+			spinnerContainerDiv.style.display = "flex"
+		});
+	</script>
 </body>
 </html>
