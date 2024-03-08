@@ -26,6 +26,12 @@
 	.total-price-td{
 		color: rgb(0, 124, 128) !important;
 	}
+	.spinner-container-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 80vh;
+	}
 	.payment-error-message-div{
 		margin: 2.5vh 0;
 		color: rgb(255, 0, 0);
@@ -72,7 +78,7 @@
 </style>
 
 
-<div class="container-fluid">
+<div class="container-fluid user-cart-container-div">
 	<div class="container-fluid">
 		<h3 class="text-center products-text-h3">Cart</h3>
 	</div>
@@ -115,11 +121,11 @@
 		<br>
 		<div class="text-center">
 			{% with totalPrice=totalpriceforallcartitem|floatformat:"0" %}
-			<form method="post" action="{% url 'buyAllItems' totalPrice %}">
+			<form method="post" action="{% url 'buyAllItems' totalPrice %}" class="buy-cart-items-form">
 			{% endwith %}
 				{% csrf_token %}
 				<div class="form-floating mb-3">
-					<input class="form-control" type="number" name="numbermakingpayment" placeholder="Enter your number here" required>
+					<input class="form-control" type="number" name="numbermakingpayment" placeholder="Enter your number here" value="{{ userphonenumber }}" required>
 					<label for="numbermakingpayment" class="form-label">Enter your number here</label>
 				</div>
 				<div class="text-center payment-error-message-div">{{ paymenterrormessage }}</div>
@@ -134,4 +140,8 @@
 	{% endif %}
 </div>
 
+
+<div class="container-fluid spinner-container-div">
+	<div class="spinner-border" role="status"></div>
+</div>
 {% endblock %}
