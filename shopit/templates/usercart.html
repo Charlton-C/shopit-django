@@ -26,6 +26,13 @@
 	.total-price-td{
 		color: rgb(0, 124, 128) !important;
 	}
+	.phone-number-input-label{
+		margin-left: 9.5vw;
+	}
+	.phone-number-input{
+		width: 80vw;
+		margin: auto;
+	}
 	.payment-error-message-div{
 		margin: 2.5vh 0;
 		color: rgb(255, 0, 0);
@@ -119,8 +126,8 @@
 			{% endwith %}
 				{% csrf_token %}
 				<div class="form-floating mb-3">
-					<input class="form-control" type="number" name="numbermakingpayment" placeholder="Enter your number here" required>
-					<label for="numbermakingpayment" class="form-label">Enter your number here</label>
+					<input class="form-control phone-number-input" type="number" name="numbermakingpayment" placeholder="Enter your number here" required>
+					<label for="numbermakingpayment" class="form-label phone-number-input-label">Enter your phone number here</label>
 				</div>
 				<div class="text-center payment-error-message-div">{{ paymenterrormessage }}</div>
 				<button type="submit" class="btn btn-success">Buy all</button>
