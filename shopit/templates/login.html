@@ -13,15 +13,21 @@
 		.log-in-form-submit-button{
 			margin: 5vh 0 18vh 0;
 		}
+		.spinner-container-div{
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
 	</style>
 </head>
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid log-in-container-div">
 		<div class="container-fluid text-center">
 			<h3 class="log-in-h3">Log In</h3>
 		</div>
 		<div class="container-fluid">
-			<form method="post" accept="{% url 'logInUser' %}">
+			<form method="post" accept="{% url 'logInUser' %}" class="log-in-form">
 				{% csrf_token %}
 				<div class="form-floating mb-3">
 					<input type="username" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
@@ -41,6 +47,11 @@
 		<div class="container-fluid text-center">
 			<p>Don't have an account? <a href="{% url 'signUpUser' %}">Sign Up</a></p>
 		</div>
+	</div>
+
+
+	<div class="container-fluid spinner-container-div">
+		<div class="spinner-border" role="status"></div>
 	</div>
 </body>
 </html>
