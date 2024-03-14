@@ -79,9 +79,9 @@
 								<a href="{% url 'addToCartFromHome' product.id %}" class="btn btn-success">Add to Cart</a>
 							{% elif product|productExistsInCart != None %}
 								<div class="card-text">
-									<a href="#" class="btn btn-sm btn-secondary"><span class="bi bi-dash-lg"></span></a>
+									<a href="{% url 'removeItemFromCartFromHomePage' product.id %}" class="btn btn-sm btn-secondary"><span class="bi bi-dash-lg"></span></a>
 									<span class="card-text number-of-specific-product-in-user-cart-span">{{ product|productExistsInCart }}</span>
-									<a href="#" class="btn btn-sm btn-secondary"><span class="bi bi-plus-lg"></span></a>
+									<a href="{% url 'addToCartFromHome' product.id %}" class="btn btn-sm btn-secondary"><span class="bi bi-plus-lg"></span></a>
 								</div>
 							{% endif %}
 							</div>
