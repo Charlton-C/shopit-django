@@ -12,7 +12,7 @@ def home(request):
 		return logInUser(request)
 	else:
 		products = Product.objects.all().order_by('-id')[:5]
-		return render(request, 'home.html', {'products': products})
+		return render(request, 'home.html', {'products': products, 'user': request.user})
 
 
 def products(request):
@@ -20,7 +20,7 @@ def products(request):
 		return logInUser(request)
 	else:
 		products = Product.objects.all()
-		return render(request, 'products.html', {'products': products})
+		return render(request, 'products.html', {'products': products, 'user': request.user})
 
 
 def usercart(request):
