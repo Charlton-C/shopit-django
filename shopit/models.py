@@ -8,7 +8,7 @@ class Product(models.Model):
 	productimage = models.ImageField(upload_to='products/')
 
 	def __str__(self):
-		return self.productname + ' ' + str(self.productprice)
+		return self.productname + ' - ' + str(self.productprice)
 
 class Cart(models.Model):
 	product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -20,4 +20,4 @@ class Cart(models.Model):
 		return self.product.productprice * self.quantity
 
 	def __str__(self):
-		return self.product.name + ' ' + str(self.quantity)
+		return str(self.quantity) + ' - ' + self.product.productname + ' - added by ' + self.user.first_name + ' ' + self.user.last_name + ' (' + self.user.username + ')'
