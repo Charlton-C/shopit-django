@@ -111,7 +111,7 @@
 						<td>{{ cartitem.quantity|intcomma }}</td>
 						<td>Ksh {{ cartitem.product.productprice|intcomma }}</td>
 						<td>Ksh {{ cartitem.itemTotalCost|intcomma }}</td>
-						<td><a href="{% url 'removeFromCart' cartitem.id %}" class="btn btn-danger">Remove</a></td>
+						<td><a href="{% url 'removeItemFromCartFromCartPage' cartitem.id %}" class="btn btn-danger">Remove</a></td>
 					</tr>							
 					{% endfor %}
 				</tbody>
