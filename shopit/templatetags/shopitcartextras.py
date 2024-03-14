@@ -3,11 +3,11 @@ from shopit.models import Cart
 
 register = template.Library()
 
-@register.filter(name="productExistsInCart")
-def productExistsInCart(product):
-	if Cart.objects.filter(product=product).exists():
-		return Cart.objects.get(product=product).quantity
+@register.filter(name="productExistsInUserCart")
+def productExistsInUserCart(user, product):
+	if Cart.objects.filter(product=product, user=user).exists():
+		return Cart.objects.get(product=product, user=user).quantity
 	else:
 		return None
 
-register.filter("productExistsInCart", productExistsInCart)
+register.filter("productExistsInUserCart", productExistsInUserCart)
