@@ -45,14 +45,35 @@ def addToCartFromProducts(request, productID):
 	cartItem.save()
 	return redirect('products')
 
-def removeFromCart(request, itemID):
-	cartItem = Cart.objects.get(id=itemID)
+def removeItemFromCartFromHomePage(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem = Cart.objects.get(product=product, user=request.user)
+	if cartItem.quantity == 1:
+		cartItem.delete()
+	else:
+		cartItem.quantity -= 1
+		cartItem.save()
+	return redirect('home')
+
+def removeItemFromCartFromProductsPage(request, productID):
+	product = Product.objects.get(id=productID)
+	cartItem = Cart.objects.get(product=product, user=request.user)
+	if cartItem.quantity == 1:
+		cartItem.delete()
+	else:
+		cartItem.quantity -= 1
+		cartItem.save()
+	return redirect('products')
+
+def removeItemFromCartFromCartPage(request, itemID):
+	cartItem = Cart.objects.get(id=itemID, user=request.user)
 	if cartItem.quantity == 1:
 		cartItem.delete()
 	else:
 		cartItem.quantity -= 1
 		cartItem.save()
 	return redirect('cart')
+
 
 def buyAllItems(request, totalcostofallitems):
 	if request.method == "POST":
