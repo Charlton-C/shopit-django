@@ -1,0 +1,429 @@
+{% extends 'index.html' %}
+{% block title %}Profile{% endblock title %}
+{% block content %}
+<style>
+	.profile-text-h3{
+		margin-bottom: 2.5vh;
+	}
+
+	.profile-div{
+		margin: auto 0 8vh 0;
+	}
+
+	.old-password-div{
+		display: none;
+	}
+	.confirm-password-div{
+		display: none;
+	}
+	.password-save-error-message-div{
+		margin: .5vh 0 2.5vh 0;
+		color: rgb(255, 0, 0);
+	}
+	.password-save-success-message-div{
+		margin: 2vh 0 0 0;
+		color: rgb(0, 128, 0);
+	}
+
+	.log-out-and-delete-button-div{
+		margin-bottom: 8vh;
+	}
+	.delete-account-alert-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 88vh;
+	}
+	.delete-account-alert-div > div > h2{
+		font-size: 220%;
+	}
+	.delete-account-alert-div > div > button{
+		margin-right: 1vw;
+	}
+	.spinner-container-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 80vh;
+	}
+</style>
+<div class="user-profile-div">
+	<div class="container-fluid">
+		<div class="container-fluid">
+			<h3 class="text-center profile-text-h3">Profile</h3>
+		</div>
+		<div class="container-fluid profile-div">
+			<form method="post" action="{% url 'updateUserProfile' %}" class="profile-update-form">
+				{% csrf_token %}
+				<div class="row text-center">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="text" name="userfirstname" class="form-control" placeholder="Firstname" value="{{ user.first_name }}" readonly>
+						<label for="userfirstname" class="form-label">Firstname</label>
+					</div>
+					<div class="col-1"></div>
+					<div class="col-1">
+						<button class="btn edit-firstname-button" type="button">Edit</button>
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row text-center">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="text" name="userlastname" class="form-control" placeholder="Lastname" value="{{ user.last_name }}" readonly>
+						<label for="userlastname" class="form-label">Lastname</label>
+					</div>
+					<div class="col-1"></div>
+					<div class="col-1">
+						<button class="btn edit-lastname-button" type="button">Edit</button>
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row text-center">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="text" name="username" class="form-control" placeholder="Username" value="{{ user.username }}" readonly>
+						<label for="username" class="form-label">Username</label>
+					</div>
+					<div class="col-1"></div>
+					<div class="col-1">
+						<button class="btn edit-username-button" type="button">Edit</button>
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row text-center">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="email" name="useremail" class="form-control" placeholder="Email" value="{{ user.email }}" readonly>
+						<label for="useremail" class="form-label">Email</label>
+					</div>
+					<div class="col-1"></div>
+					<div class="col-1">
+						<button class="btn edit-email-button" type="button">Edit</button>
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row text-center old-password-div">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="password" name="oldpassword" class="form-control" placeholder="Old Password">
+						<label for="oldpassword" class="form-label">Old Password</label>
+					</div>
+					<div class="col-1">
+						<span class="bi bi-eye-slash show-oldpassword-span"></span>
+					</div>
+					<div class="col-2"></div>
+				</div>
+				<div class="row text-center">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="password" name="password" class="form-control" placeholder="Password" readonly>
+						<label for="password" class="form-label">Password</label>
+					</div>
+					<div class="col-1">
+						<span class="bi bi-eye-slash show-password-span"></span>
+					</div>
+					<div class="col-1">
+						<button class="btn edit-password-button" type="button">Edit</button>
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row text-center confirm-password-div">
+					<div class="col-1"></div>
+					<div class="form-floating gx-0 mb-1 col-8">
+						<input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password">
+						<label for="confirmpassword" class="form-label">Confirm Password</label>
+					</div>
+					<div class="col-1">
+						<span class="bi bi-eye-slash show-confirmpassword-span"></span>
+					</div>
+					<div class="col-2"></div>
+				</div>
+				<div class="container-fluid text-center password-save-error-message-div">{{ passwordSaveErrorMessage|linebreaks }}</div>
+				<div class="text-center">
+					<button class="btn btn-success disabled change-user-info-button" type="submit">Change</button>
+				</div>
+			</form>
+			<div class="container-fluid text-center password-save-success-message-div">{{ passwordSaveSuccessMessage|linebreaks }}</div>
+		</div>
+		<div class="container-fluid text-center log-out-and-delete-button-div">
+			<a class="btn btn-primary log-out-anchor" type="button" href="{% url 'logOutUser' %}">Log Out</a>
+			<br>
+			<br>
+			<button class="btn btn-danger delete-account-button" type="button">Delete Account</button>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid text-center delete-account-alert-div">
+	<div class="alert alert-danger">
+		<h2><span class="bi bi-exclamation-triangle"></span></h2>
+		<p>Are you sure you want to delete your account?<br>This cannot be undone.</p>
+		<button class="btn btn-primary cancel-delete-account-button">No I'm not</button>
+		<a class="btn btn-danger confirm-delete-account-anchor" type="button" href="{% url 'deleteUserAccount' %}">Yes I'm Sure</a>
+	</div>
+</div>
+
+
+<div class="container-fluid spinner-container-div">
+	<div class="spinner-border" role="status"></div>
+</div>
+
+
+<script>
+	var editFirstnameButton = document.querySelector(".edit-firstname-button");
+	var editLastnameButton = document.querySelector(".edit-lastname-button");
+	var editUsernameButton = document.querySelector(".edit-username-button");
+	var editEmailButton = document.querySelector(".edit-email-button");
+	var editPasswordButton = document.querySelector(".edit-password-button");
+	var showOldPasswordSpan = document.querySelector(".show-oldpassword-span");
+	var showPasswordSpan = document.querySelector(".show-password-span");
+	var showConfirmPasswordSpan = document.querySelector(".show-confirmpassword-span");
+	var changeUserInfoButton = document.querySelector(".change-user-info-button");
+	var deleteAccountButton = document.querySelector(".delete-account-button");
+	var deleteAccountAlertDiv = document.querySelector(".delete-account-alert-div");
+	var cancelDeleteAccountButton = document.querySelector(".cancel-delete-account-button");
+	var profileUpdateForm = document.querySelector(".profile-update-form");
+	var userProfileDiv = document.querySelector(".user-profile-div");
+	var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+	var firstnameSaved = true;
+	var lastnameSaved = true;
+	var usernameSaved = true;
+	var emailSaved = true;
+	var passwordSaved = true;
+
+	editFirstnameButton.addEventListener("click", () => {
+		if(editFirstnameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userfirstname']").toggleAttribute("readonly");
+			}
+			editFirstnameButton.innerText = "Save";
+			firstnameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editFirstnameButton.innerText == "Save"){
+			if(document.querySelector("input[name='userfirstname']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter your first name";
+			}
+			else if(document.querySelector("input[name='userfirstname']").value != ""){
+				if(!document.querySelector("input[name='userfirstname']").hasAttribute("readonly")){
+					document.querySelector("input[name='userfirstname']").toggleAttribute("readonly");
+				}
+				editFirstnameButton.innerText = "Edit";
+				firstnameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+	editLastnameButton.addEventListener("click", () => {
+		if(editLastnameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='userlastname']").hasAttribute("readonly")){
+				document.querySelector("input[name='userlastname']").toggleAttribute("readonly");
+			}
+			editLastnameButton.innerText = "Save";
+			lastnameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editLastnameButton.innerText == "Save"){
+			if(document.querySelector("input[name='userlastname']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter your last name";
+			}
+			else if(document.querySelector("input[name='userlastname']").value != ""){
+				if(!document.querySelector("input[name='userlastname']").hasAttribute("readonly")){
+					document.querySelector("input[name='userlastname']").toggleAttribute("readonly");
+				}
+				editLastnameButton.innerText = "Edit";
+				lastnameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+	editUsernameButton.addEventListener("click", () => {
+		if(editUsernameButton.innerText == "Edit"){
+			if(document.querySelector("input[name='username']").hasAttribute("readonly")){
+				document.querySelector("input[name='username']").toggleAttribute("readonly");
+			}
+			editUsernameButton.innerText = "Save";
+			usernameSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editUsernameButton.innerText == "Save"){
+			if(document.querySelector("input[name='username']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a username";
+			}
+			else if(document.querySelector("input[name='username']").value != ""){
+				if(!document.querySelector("input[name='username']").hasAttribute("readonly")){
+					document.querySelector("input[name='username']").toggleAttribute("readonly");
+				}
+				editUsernameButton.innerText = "Edit";
+				usernameSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+	editEmailButton.addEventListener("click", () => {
+		if(editEmailButton.innerText == "Edit"){
+			if(document.querySelector("input[name='useremail']").hasAttribute("readonly")){
+				document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+			}
+			editEmailButton.innerText = "Save";
+			emailSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editEmailButton.innerText == "Save"){
+			if(document.querySelector("input[name='useremail']").validity.valid == false){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a valid email";
+			}
+			else if(document.querySelector("input[name='useremail']").validity.valid == true){
+				if(!document.querySelector("input[name='useremail']").hasAttribute("readonly")){
+					document.querySelector("input[name='useremail']").toggleAttribute("readonly");
+				}
+				editEmailButton.innerText = "Edit";
+				emailSaved = true;
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+	showOldPasswordSpan.addEventListener("click", () => {
+		if(!showOldPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='oldpassword']").type = "text";
+			showOldPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showOldPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='oldpassword']").type = "password";
+			showOldPasswordSpan.classList.toggle("bi-eye");
+		}
+		else{}
+	});
+	showPasswordSpan.addEventListener("click", () => {
+		if(!showPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='password']").type = "text";
+			showPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='password']").type = "password";
+			showPasswordSpan.classList.toggle("bi-eye");
+		}
+		else{}
+	});
+	showConfirmPasswordSpan.addEventListener("click", () => {
+		if(!showConfirmPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='confirmpassword']").type = "text";
+			showConfirmPasswordSpan.classList.toggle("bi-eye");
+		}
+		else if(showConfirmPasswordSpan.classList.contains("bi-eye")){
+			document.querySelector("input[name='confirmpassword']").type = "password";
+			showConfirmPasswordSpan.classList.toggle("bi-eye");
+		}
+		else{}
+	});
+	editPasswordButton.addEventListener("click", () => {
+		if(editPasswordButton.innerText == "Edit"){
+			if(document.querySelector("input[name='password']").hasAttribute("readonly")){
+				document.querySelector("input[name='password']").toggleAttribute("readonly");
+			}
+			document.querySelector(".old-password-div").style.display = "flex";
+			document.querySelector(".confirm-password-div").style.display = "flex";
+			document.querySelector("label[for='password']").innerText = "New Password";
+			editPasswordButton.innerText = "Save";
+			passwordSaved = false;
+			if(!changeUserInfoButton.classList.contains("disabled")){
+				changeUserInfoButton.classList.toggle("disabled")
+			}
+		}
+		else if(editPasswordButton.innerText == "Save"){
+			if(document.querySelector("input[name='oldpassword']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter your old password";
+			}
+			else if(document.querySelector("input[name='password']").value == ""){
+				document.querySelector(".password-save-error-message-div").innerText = "Please enter a new password";
+			}
+			else if(document.querySelector("input[name='password']").value != document.querySelector("input[name='confirmpassword']").value){
+				document.querySelector(".password-save-error-message-div").innerText = "Passwords don't match";
+			}
+			else if(document.querySelector("input[name='oldpassword']").value != "" && document.querySelector("input[name='password']").value != "" && document.querySelector("input[name='password']").value == document.querySelector("input[name='confirmpassword']").value){
+				if(!document.querySelector("input[name='password']").hasAttribute("readonly")){
+					document.querySelector("input[name='password']").toggleAttribute("readonly");
+				}
+				document.querySelector(".old-password-div").style.display = "none";
+				document.querySelector(".confirm-password-div").style.display = "none";
+				document.querySelector("label[for='password']").innerText = "Password";
+				editPasswordButton.innerText = "Edit";
+				passwordSaved = true;
+				document.querySelector("input[name='confirmpassword']").value = "";
+				document.querySelector(".password-save-error-message-div").innerText = "";
+				if(firstnameSaved && lastnameSaved && usernameSaved && emailSaved && passwordSaved){
+					if(changeUserInfoButton.classList.contains("disabled")){
+						changeUserInfoButton.classList.toggle("disabled")
+					}
+				}
+			}
+			else{}
+		}
+		else{}
+	});
+
+
+	deleteAccountButton.addEventListener("click", () => {
+		userProfileDiv.style.display = "none"
+		deleteAccountAlertDiv.style.display = "flex"
+	});
+	cancelDeleteAccountButton.addEventListener("click", () => {
+		userProfileDiv.style.display = "block"
+		deleteAccountAlertDiv.style.display = "none"
+	});
+
+
+	profileUpdateForm.addEventListener("submit", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userProfileDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+	document.querySelector(".log-out-anchor").addEventListener("click", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userProfileDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+	document.querySelector(".confirm-delete-account-anchor").addEventListener("click", () => {
+		document.querySelector("title").innerText = "Loading..."
+		deleteAccountAlertDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+</script>
+{% endblock content %}

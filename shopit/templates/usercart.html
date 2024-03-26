@@ -1,0 +1,167 @@
+{% extends 'index.html' %}
+{% block title %}Cart{% endblock title %}
+{% block content %}
+{% load humanize %}
+<style>
+	.products-div{
+		margin: auto 0 8vh 0;
+	}
+	
+	.products-text-h3{
+		margin-bottom: 2.5vh;
+	}
+
+	.products-table{
+		font-size: 3.5vw;
+	}
+	
+	.products-table > tbody > tr > td > img{
+		width: 14vw;
+	}
+	
+	.products-table > tbody > tr > td > a{
+		font-size: 3.5vw;
+	}
+	
+	.total-price-td{
+		color: rgb(0, 124, 128) !important;
+	}
+	.phone-number-input-label{
+		margin-left: 9.5vw;
+	}
+	.phone-number-input{
+		width: 80vw;
+		margin: auto;
+	}
+	.spinner-container-div{
+		display: none;
+		align-items: center;
+		justify-content: center;
+		height: 80vh;
+	}
+	.payment-error-message-div{
+		margin: 2.5vh 0;
+		color: rgb(255, 0, 0);
+	}
+	.payment-success-message-div{
+		margin-top: 2.5vh;
+		color: rgb(0, 128, 0);
+	}
+
+
+
+	/* For tablet screens */
+
+	@media only screen and (min-width: 768px) and (max-width: 1024px){
+		.products-table{
+			font-size: 1.5vw;
+		}
+		
+		.products-table > tbody > tr > td > img{
+			width: 8vw;
+		}
+		
+		.products-table > tbody > tr > td > a{
+			font-size: 1.4vw;
+		}
+	}
+
+
+	/* For laptop screens */
+	
+	@media only screen and (min-width: 1025px) and (max-width: 1600px){
+		.products-table{
+			font-size: 1.6vw;
+		}
+		
+		.products-table > tbody > tr > td > img{
+			width: 7vw;
+		}
+		
+		.products-table > tbody > tr > td > a{
+			font-size: 1.4vw;
+		}
+	}
+</style>
+
+
+<div class="container-fluid user-cart-container-div">
+	<div class="container-fluid">
+		<h3 class="text-center products-text-h3">Cart</h3>
+	</div>
+
+	{% if cartitems %}
+		<div class="table-responsive">
+			<table class="table table-light table-hover products-table">
+				<thead>
+					<tr>
+						<th>Item Image</th>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Total Price</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for cartitem in cartitems %}
+					<tr>
+						<td><img class="rounded img-fluid" src="{{ cartitem.product.productimage.url }}"></td>
+						<td>{{ cartitem.product.productname }}</td>
+						<td>{{ cartitem.quantity|intcomma }}</td>
+						<td>Ksh {{ cartitem.product.productprice|intcomma }}</td>
+						<td>Ksh {{ cartitem.itemTotalCost|intcomma }}</td>
+						<td><a href="{% url 'removeItemFromCartFromCartPage' cartitem.id %}" class="btn btn-danger">Remove</a></td>
+					</tr>							
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>Total:</td>
+						<td colspan="3"></td>
+						<td class="total-price-td">Ksh {{ totalpriceforallcartitem|intcomma }}</td>
+						<td></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<br>
+		<div class="text-center">
+			{% with totalPrice=totalpriceforallcartitem|floatformat:"0" %}
+			<form method="post" action="{% url 'buyAllItems' totalPrice %}" class="buy-cart-items-form">
+			{% endwith %}
+				{% csrf_token %}
+				<div class="form-floating mb-3">
+					<input class="form-control phone-number-input" type="number" name="numbermakingpayment" placeholder="Enter your number here" value="{{ userphonenumber }}" required>
+					<label for="numbermakingpayment" class="form-label phone-number-input-label">Enter your phone number here</label>
+				</div>
+				<div class="text-center payment-error-message-div">{{ paymenterrormessage }}</div>
+				<button type="submit" class="btn btn-success">Buy all</button>
+			</form>
+		</div>
+		{% else %}
+		<div class="text-center">
+			<p>Your shopping cart is empty.</p>
+			<div class="text-center payment-success-message-div">{{ paymentsuccessmessage }}</div>
+		</div>
+	{% endif %}
+</div>
+
+
+<div class="container-fluid spinner-container-div">
+	<div class="spinner-border" role="status"></div>
+</div>
+
+
+<script>
+	var userCartContainerDiv = document.querySelector(".user-cart-container-div");
+	var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+	var buyCartItemsForm = document.querySelector(".buy-cart-items-form");
+
+	buyCartItemsForm.addEventListener("submit", () => {
+		document.querySelector("title").innerText = "Loading..."
+		userCartContainerDiv.style.display = "none";
+		spinnerContainerDiv.style.display = "flex"
+	});
+</script>
+{% endblock %}

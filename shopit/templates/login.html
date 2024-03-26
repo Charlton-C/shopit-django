@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<title>Log In</title>
+	<style>
+		.log-in-h3{
+			margin: 5vh 0;
+		}
+		.log-in-error-message{
+			margin: 3vh 0;
+			color: rgb(255, 0, 0);
+		}
+		.log-in-form-submit-button{
+			margin: .4vh 0 28vh 0;
+		}
+		.spinner-container-div{
+			display: none;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+	</style>
+</head>
+<body>
+	<div class="container-fluid log-in-container-div">
+		<div class="container-fluid text-center">
+			<h3 class="log-in-h3">Log In</h3>
+		</div>
+		<div class="container-fluid">
+			<form method="post" accept="{% url 'logInUser' %}" class="log-in-form">
+				{% csrf_token %}
+				<div class="form-floating mb-3">
+					<input type="username" name="username" class="form-control" placeholder="Username" value="{{ username }}" required>
+					<label for="username" class="form-label">Enter Username</label>
+					<div class="form-text"></div>
+				</div>
+				<div class="form-floating mb-3">
+					<input type="password" name="password" class="form-control" placeholder="Password" required>
+					<label for="password" class="form-label">Enter Password</label>
+					<div class="form-text"></div>
+				</div>
+				<div class="container-fluid text-center log-in-error-message">{{ loginerrormessage }}</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary log-in-form-submit-button">Log In</button>
+				</div>
+			</form>
+		</div>
+		<div class="container-fluid text-center">
+			<p>Don't have an account? <a href="{% url 'signUpUser' %}">Sign Up</a></p>
+		</div>
+	</div>
+
+
+	<div class="container-fluid spinner-container-div">
+		<div class="spinner-border" role="status"></div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script>
+		var logInContainerDiv = document.querySelector(".log-in-container-div");
+		var spinnerContainerDiv = document.querySelector(".spinner-container-div");
+		var logInForm = document.querySelector(".log-in-form");
+
+		logInForm.addEventListener("submit", () => {
+			document.querySelector("title").innerText = "Loading..."
+			logInContainerDiv.style.display = "none";
+			spinnerContainerDiv.style.display = "flex"
+		});
+	</script>
+</body>
+</html>

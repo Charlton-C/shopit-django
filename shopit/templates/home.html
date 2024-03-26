@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+{% load humanize %}
+{% load shopitcartextras %}
+<style>
+	.products-div{
+		margin: auto 0 8vh 0;
+	}
+	
+	.products-text-h3{
+		margin-bottom: 2.5vh;
+	}
+	
+	.products-div-ul{
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0;
+		list-style: none;
+	}
+
+	.card{
+		width: 80vw;
+		margin: 0 0 5vh -3.5vw;
+	}
+
+	.number-of-specific-product-in-user-cart-span{
+		margin: 0 5vw;
+	}
+
+	.product-current-price-span{
+		color: rgb(0, 124, 128);
+	}
+
+
+
+	/* For tablet screens */
+
+	@media only screen and (min-width: 768px) and (max-width: 1024px){
+		.card{
+			width: 38vw;
+			margin: 0 2vw 5vh 1.8vw;
+		}
+	}
+
+
+	/* For laptop screens */
+
+	@media only screen and (min-width: 1025px) and (max-width: 1600px){
+		.card{
+			width: 26.5vw;
+			margin: 0 2vw 5vh 1.8vw;
+		}
+
+		.number-of-specific-product-in-user-cart-span{
+			margin: 0 3vw;
+		}
+	}
+</style>
+
+
+<div class="container-fluid">
+	<div class="container-fluid">
+		<h3 class="text-center products-text-h3">Just for you</h3>
+	</div>
+
+	<div class="container-fluid">
+		<div class="text-center products-div">
+			<ul class="products-div-ul">
+				{% for product in products %}
+				<li>
+					<div class="card">
+						<img class="img-fluid" src="{{ product.productimage.url }}">
+						<div class="card-body">
+							<h5 class="card-title">{{ product.productname }}</h5>
+							<p class="card-text">{{ product.productdescription }}</p>
+							<p class="card-text"><span class="product-current-price-span">Ksh {{ product.productprice|intcomma }}</span></p>
+							{% if user|productExistsInUserCart:product == None %}
+								<a href="{% url 'addToCartFromHome' product.id %}" class="btn btn-success">Add to Cart</a>
+							{% elif user|productExistsInUserCart:product != None %}
+								<div class="card-text">
+									<a href="{% url 'removeItemFromCartFromHomePage' product.id %}" class="btn btn-sm btn-secondary"><span class="bi bi-dash-lg"></span></a>
+									<span class="card-text number-of-specific-product-in-user-cart-span">{{ user|productExistsInUserCart:product }}</span>
+									<a href="{% url 'addToCartFromHome' product.id %}" class="btn btn-sm btn-secondary"><span class="bi bi-plus-lg"></span></a>
+								</div>
+							{% endif %}
+							</div>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,3 +1,6 @@
 from django.contrib import admin
+from shopit.models import Product
+from shopit.models import Cart
 
-# Register your models here.
+admin.site.register(Product)
+admin.site.register(Cart)

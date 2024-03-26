@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'shopit',
+	'django.contrib.humanize',
+	'django_daraja'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MPESA_ENVIRONMENT = ''
+
+MPESA_CONSUMER_KEY = ''
+MPESA_CONSUMER_SECRET = ''
+
+MPESA_SHORTCODE = ''
+MPESA_EXPRESS_SHORTCODE = ''
+
+MPESA_SHORTCODE_TYPE = ''
+
+MPESA_PASSKEY = ''
+
+MPESA_INITIATOR_NAME = ''
+MPESA_INITIATOR_SECURITY_CREDENTIAL = ''
